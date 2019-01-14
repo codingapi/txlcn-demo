@@ -41,9 +41,9 @@ public class DefaultDemoService implements DDemoService {
         Demo demo = new Demo();
         demo.setDemoField(name);
         demo.setCreateTime(new Date());
-        demo.setGroupId(DTXLocal.cur().getGroupId());
+        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
         demo.setAppName(appName);
-        demo.setUnitId(DTXLocal.cur().getUnitId());
+        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
         demoMapper.save(demo);
         return "d-ok";
     }

@@ -23,17 +23,21 @@ import java.util.Date;
 @Order(Integer.MIN_VALUE)
 public class DemoServiceImpl implements DemoService {
 
-    @Autowired
-    private ClientDemoMapper demoMapper;
+    private final ClientDemoMapper demoMapper;
 
-    @Autowired
-    private DDemoClient dDemoClient;
+    private final DDemoClient dDemoClient;
 
-    @Autowired
-    private EDemoClient eDemoClient;
+    private final EDemoClient eDemoClient;
 
     @Value("${spring.application.name}")
     private String appName;
+
+    @Autowired
+    public DemoServiceImpl(ClientDemoMapper demoMapper, DDemoClient dDemoClient, EDemoClient eDemoClient) {
+        this.demoMapper = demoMapper;
+        this.dDemoClient = dDemoClient;
+        this.eDemoClient = eDemoClient;
+    }
 
     @Override
     @LcnTransaction
@@ -44,8 +48,8 @@ public class DemoServiceImpl implements DemoService {
         demo.setDemoField(value);
         demo.setAppName(appName);
         demo.setCreateTime(new Date());
-        demo.setGroupId(DTXLocal.cur().getGroupId());
-        demo.setUnitId(DTXLocal.cur().getUnitId());
+        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
+        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
         demoMapper.save(demo);
 //        int i = 1/0;
         return dResp + " > " + eResp + " > " + "ok-client";

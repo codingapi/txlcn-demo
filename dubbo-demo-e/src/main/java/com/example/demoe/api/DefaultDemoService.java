@@ -43,8 +43,8 @@ public class DefaultDemoService implements EDemoService {
         Demo demo = new Demo();
         demo.setDemoField(name);
         demo.setCreateTime(new Date());
-        demo.setGroupId(DTXLocal.cur().getGroupId());
-        demo.setUnitId(DTXLocal.cur().getUnitId());
+        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
+        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
         demo.setAppName(appName);
         demoMapper.save(demo);
         ids.put(DTXLocal.cur().getGroupId(), demo.getId());

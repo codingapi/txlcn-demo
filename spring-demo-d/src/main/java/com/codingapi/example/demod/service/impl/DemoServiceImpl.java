@@ -22,11 +22,15 @@ import java.util.Date;
 @Service
 public class DemoServiceImpl implements DemoService {
 
-    @Autowired
-    private DDemoMapper demoMapper;
+    private final DDemoMapper demoMapper;
 
     @Value("${spring.application.name}")
     private String appName;
+
+    @Autowired
+    public DemoServiceImpl(DDemoMapper demoMapper) {
+        this.demoMapper = demoMapper;
+    }
 
 
     @Override
@@ -37,8 +41,8 @@ public class DemoServiceImpl implements DemoService {
         demo.setCreateTime(new Date());
         demo.setDemoField(value);
         demo.setAppName(appName);
-        demo.setGroupId(DTXLocal.cur().getGroupId());
-        demo.setUnitId(DTXLocal.cur().getUnitId());
+        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
+        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
         demoMapper.save(demo);
         return "ok-d";
     }
