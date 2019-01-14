@@ -3,8 +3,8 @@ package com.example.demoe.api;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.dubbo.DDemoService;
-import com.codingapi.tx.client.bean.DTXLocal;
-import com.codingapi.tx.commons.annotation.TxTransaction;
+import com.codingapi.txlcn.client.bean.DTXLocal;
+import com.codingapi.txlcn.commons.annotation.TxTransaction;
 import com.example.demoe.mapper.DDemoMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +41,9 @@ public class DefaultDemoService implements DDemoService {
         Demo demo = new Demo();
         demo.setDemoField(name);
         demo.setCreateTime(new Date());
-        demo.setGroupId(DTXLocal.cur().getGroupId());
+        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
         demo.setAppName(appName);
-        demo.setUnitId(DTXLocal.cur().getUnitId());
+        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
         demoMapper.save(demo);
         return "d-ok";
     }
