@@ -56,7 +56,7 @@ public class DemoApiServiceImpl implements DemoApiService {
         demo.setGroupId(DTXLocal.getOrNew().getGroupId());
         demo.setUnitId(DTXLocal.getOrNew().getUnitId());
         demoMapper.save(demo);
-        int a = 1 / 0;
+//        int a = 1 / 0;
         return dResp + " > " + eResp + " > " + "client-ok";
     }
 }

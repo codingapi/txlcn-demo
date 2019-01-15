@@ -8,10 +8,10 @@
         <version>5.0.0.RC1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>com.example</groupId>
+
     <artifactId>dubbo-demo-d</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>dubbo-demo-d</name>
+
     <description>Demo project for Spring Boot</description>
 
 
@@ -42,6 +42,14 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>
