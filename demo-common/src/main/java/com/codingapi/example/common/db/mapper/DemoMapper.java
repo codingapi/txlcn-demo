@@ -4,6 +4,7 @@ import com.codingapi.example.common.db.domain.Demo;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * Description:
@@ -18,5 +19,13 @@ public interface DemoMapper {
     void save(Demo demo);
 
     @Delete("delete from t_demo where id=#{id}")
-    void deleteById(Long aLong);
+    void deleteById(Long id);
+
+
+    @Delete("delete from t_demo where id >= 4")
+    void delete5();
+
+
+    @Update("update t_demo set app_name = #{name} where id = 3")
+    void update(String name);
 }
