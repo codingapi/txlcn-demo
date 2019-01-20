@@ -42,7 +42,7 @@ public class DefaultDemoService implements EDemoService {
 
     @Override
 //    @TccTransaction(confirmMethod = "cm", cancelMethod = "cl", executeClass = DefaultDemoService.class)
-//    @LcnTransaction
+    @LcnTransaction
 //    @TxcTransaction
     @Transactional
     public String rpc(String name) {

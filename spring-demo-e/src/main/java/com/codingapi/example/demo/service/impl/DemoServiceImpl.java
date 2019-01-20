@@ -41,8 +41,8 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
 //    @TccTransaction(propagation = DTXPropagation.SUPPORTS,confirmMethod = "confirmRpc",cancelMethod = "cancelRpc")
-    @TxcTransaction(propagation = DTXPropagation.SUPPORTS)
-//    @LcnTransaction(propagation = DTXPropagation.SUPPORTS)
+//    @TxcTransaction(propagation = DTXPropagation.SUPPORTS)
+    @LcnTransaction(propagation = DTXPropagation.SUPPORTS)
     @Transactional
     public String rpc(String value) {
         Demo demo = new Demo();

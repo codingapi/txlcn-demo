@@ -45,7 +45,7 @@ public class DefaultDemoService implements DDemoService {
 
     @Override
 //    @TxTransaction(type = "txc")
-//    @LcnTransaction
+    @LcnTransaction
 //    @TxcTransaction
 //    @TccTransaction(confirmMethod = "cm", cancelMethod = "cl", executeClass = DefaultDemoService.class)
     @Transactional

@@ -1,5 +1,6 @@
 package com.codingapi.example.demod;
 
+import com.codingapi.txlcn.client.config.EnableDistributedTransaction;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -12,6 +13,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableDistributedTransaction
 public class SpringDApplication {
 
     public static void main(String[] args) {

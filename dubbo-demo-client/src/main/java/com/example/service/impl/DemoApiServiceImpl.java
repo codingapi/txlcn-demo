@@ -55,7 +55,7 @@ public class DemoApiServiceImpl implements DemoApiService {
 
 
     @Override
-//    @LcnTransaction
+    @LcnTransaction
 //    @TxcTransaction
     @Transactional
 //    @TccTransaction(cancelMethod = "cl",confirmMethod = "cm")
