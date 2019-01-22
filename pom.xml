@@ -13,13 +13,47 @@
     <modules>
         <module>demo-common</module>
 
-        <module>dubbo-demo-client</module>
-        <module>dubbo-demo-d</module>
-        <module>dubbo-demo-e</module>
+        <module>dubbo/lcn/lcn-demo-client</module>
+        <module>dubbo/lcn/lcn-demo-d</module>
+        <module>dubbo/lcn/lcn-demo-e</module>
 
-        <module>spring-demo-client</module>
-        <module>spring-demo-d</module>
-        <module>spring-demo-e</module>
+        <module>dubbo/txc/txc-demo-client</module>
+        <module>dubbo/txc/txc-demo-d</module>
+        <module>dubbo/txc/txc-demo-e</module>
+
+        <module>dubbo/tcc/tcc-demo-client</module>
+        <module>dubbo/tcc/tcc-demo-d</module>
+        <module>dubbo/tcc/tcc-demo-e</module>
+
+        <module>dubbo/all/all-demo-client</module>
+        <module>dubbo/all/all-demo-d</module>
+        <module>dubbo/all/all-demo-e</module>
+
+        <module>dubbo/local/local-demo-client</module>
+        <module>dubbo/local/local-demo-d</module>
+        <module>dubbo/local/local-demo-e</module>
+
+
+        <module>spring/all/all-demo-client</module>
+        <module>spring/all/all-demo-d</module>
+        <module>spring/all/all-demo-e</module>
+
+
+        <module>spring/lcn/lcn-demo-client</module>
+        <module>spring/lcn/lcn-demo-d</module>
+        <module>spring/lcn/lcn-demo-e</module>
+
+        <module>spring/local/local-demo-client</module>
+        <module>spring/local/local-demo-d</module>
+        <module>spring/local/local-demo-e</module>
+
+        <module>spring/tcc/tcc-demo-client</module>
+        <module>spring/tcc/tcc-demo-d</module>
+        <module>spring/tcc/tcc-demo-e</module>
+
+        <module>spring/txc/txc-demo-client</module>
+        <module>spring/txc/txc-demo-d</module>
+        <module>spring/txc/txc-demo-e</module>
 
     </modules>
 
