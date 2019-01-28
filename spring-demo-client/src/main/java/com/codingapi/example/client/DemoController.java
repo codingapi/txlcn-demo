@@ -1,6 +1,5 @@
-package com.codingapi.example.client.controller;
+package com.codingapi.example.client;
 
-import com.codingapi.example.client.service.DemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,11 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DemoController {
 
+    private final DemoService demoService;
+
     @Autowired
-    private DemoService demoService;
+    public DemoController(DemoService demoService) {
+        this.demoService = demoService;
+    }
 
     @RequestMapping("/txlcn")
-    public String execute(String value){
-        return demoService.execute(value);
+    public String execute(String value) {
+        String result1 = demoService.transactionA();
+        return "DTX A:" + result1 + " | DTX B:" + demoService.execute(value);
     }
 }

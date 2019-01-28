@@ -1,14 +1,12 @@
-package com.codingapi.example.demo.service.impl;
+package com.codingapi.example.demo;
 
 import com.codingapi.example.common.db.domain.Demo;
-import com.codingapi.example.demo.mapper.EDemoMapper;
-import com.codingapi.example.demo.service.DemoService;
-import com.codingapi.txlcn.client.bean.DTXLocal;
 import com.codingapi.txlcn.commons.annotation.DTXPropagation;
 import com.codingapi.txlcn.commons.annotation.TccTransaction;
+import com.codingapi.txlcn.commons.util.Transactions;
+import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -28,35 +26,38 @@ public class DemoServiceImpl implements DemoService {
 
     private ConcurrentHashMap<String, Long> ids = new ConcurrentHashMap<>();
 
-    @Value("${spring.application.name}")
-    private String appName;
-
     @Autowired
     public DemoServiceImpl(EDemoMapper demoMapper) {
         this.demoMapper = demoMapper;
     }
 
     @Override
-    @TccTransaction(dtxp = DTXPropagation.SUPPORTS)
+    @TccTransaction(propagation = DTXPropagation.SUPPORTS)
     public String rpc(String value) {
+        /*
+         * 注意 5.0.0.RC2 请用 DTXLocal 类
+         * 注意 5.0.0.RC2 请自行获取应用名称
+         * 注意 5.0.0.RC2 其它类重新导入包名
+         */
         Demo demo = new Demo();
         demo.setDemoField(value);
         demo.setCreateTime(new Date());
-        demo.setAppName(appName);
-        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
-        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
+        demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);
+        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
+        demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
         demoMapper.save(demo);
-        ids.put(DTXLocal.cur().getGroupId(), demo.getId());
+        ids.put(DTXLocalContext.getOrNew().getGroupId(), demo.getId());
         return "ok-e";
     }
 
     public void confirmRpc(String value) {
-        log.info("tcc-confirm-" + DTXLocal.getOrNew().getGroupId());
-        ids.remove(DTXLocal.getOrNew().getGroupId());
+        log.info("tcc-confirm-" + DTXLocalContext.getOrNew().getGroupId());
+        ids.remove(DTXLocalContext.getOrNew().getGroupId());
     }
 
     public void cancelRpc(String value) {
-        log.info("tcc-cancel-" + DTXLocal.getOrNew().getGroupId());
-        demoMapper.deleteById(ids.get(DTXLocal.getOrNew().getGroupId()));
+        log.info("tcc-cancel-" + DTXLocalContext.getOrNew().getGroupId());
+        Long kid = ids.get(DTXLocalContext.getOrNew().getGroupId());
+        demoMapper.deleteByKId(kid);
     }
 }

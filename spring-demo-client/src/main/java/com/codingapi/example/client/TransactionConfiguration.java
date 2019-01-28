@@ -1,10 +1,14 @@
 package com.codingapi.example.client;
 
-import com.codingapi.txlcn.client.aspect.interceptor.DTXInterceptor;
-import com.codingapi.txlcn.client.aspect.weave.DTXLogicWeaver;
+import com.codingapi.txlcn.tc.aspect.interceptor.DTXInterceptor;
+import com.codingapi.txlcn.tc.aspect.weave.DTXLogicWeaver;
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
+import org.springframework.boot.autoconfigure.transaction.TransactionProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 import java.util.Properties;
@@ -15,9 +19,9 @@ import java.util.Properties;
  *
  * @author ujued
  */
-//@Configuration
-//@EnableTransactionManagement
-//@EnableConfigurationProperties(TransactionProperties.class)
+@Configuration
+@EnableTransactionManagement
+@EnableConfigurationProperties(TransactionProperties.class)
 public class TransactionConfiguration {
 
     @Bean

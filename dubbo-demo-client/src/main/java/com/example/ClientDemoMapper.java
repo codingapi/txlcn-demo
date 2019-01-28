@@ -1,4 +1,4 @@
-package com.codingapi.example.demod.mapper;
+package com.example;
 
 import com.codingapi.example.common.db.mapper.DemoMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @author ujued
  */
 @Mapper
-public interface DDemoMapper extends DemoMapper {
+public interface ClientDemoMapper extends DemoMapper {
 }

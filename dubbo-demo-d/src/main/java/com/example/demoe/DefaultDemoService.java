@@ -1,14 +1,13 @@
-package com.example.demoe.api;
+package com.example.demoe;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.dubbo.DDemoService;
-import com.codingapi.txlcn.client.bean.DTXLocal;
 import com.codingapi.txlcn.commons.annotation.TxTransaction;
-import com.example.demoe.mapper.DDemoMapper;
+import com.codingapi.txlcn.commons.util.Transactions;
+import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 
@@ -31,19 +30,21 @@ public class DefaultDemoService implements DDemoService {
     @Autowired
     private DDemoMapper demoMapper;
 
-
-    @Value("${spring.application.name}")
-    private String appName;
-
     @Override
     @TxTransaction(type = "txc")
     public String rpc(String name) {
+
+        /*
+         * 注意 5.0.0.RC2 请用 DTXLocal 类
+         * 注意 5.0.0.RC2 请自行获取应用名称
+         * 注意 5.0.0.RC2 其它类重新导入包名
+         */
         Demo demo = new Demo();
         demo.setDemoField(name);
         demo.setCreateTime(new Date());
-        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
-        demo.setAppName(appName);
-        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
+        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
+        demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);
+        demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
         demoMapper.save(demo);
         return "d-ok";
     }

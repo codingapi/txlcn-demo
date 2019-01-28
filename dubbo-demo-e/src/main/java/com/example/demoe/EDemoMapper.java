@@ -1,13 +1,14 @@
-package com.codingapi.example.demo.mapper;
+package com.example.demoe;
 
 import com.codingapi.example.common.db.mapper.DemoMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
  * Description:
- * Date: 2018/12/25
+ * Company: CodingApi
+ * Date: 2018/12/21
  *
- * @author ujued
+ * @author codingapi
  */
 @Mapper
 public interface EDemoMapper extends DemoMapper {

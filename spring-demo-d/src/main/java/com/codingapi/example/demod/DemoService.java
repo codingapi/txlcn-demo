@@ -1,4 +1,4 @@
-package com.codingapi.example.demo.service;
+package com.codingapi.example.demod;
 
 /**
  * Description:

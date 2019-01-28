@@ -1,14 +1,13 @@
-package com.example.demoe.api;
+package com.example.demoe;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.dubbo.EDemoService;
-import com.codingapi.txlcn.client.bean.DTXLocal;
 import com.codingapi.txlcn.commons.annotation.TccTransaction;
-import com.example.demoe.mapper.EDemoMapper;
+import com.codingapi.txlcn.commons.util.Transactions;
+import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,30 +33,33 @@ public class DefaultDemoService implements EDemoService {
 
     private ConcurrentHashMap<String, Long> ids = new ConcurrentHashMap<>();
 
-    @Value("${spring.application.name}")
-    private String appName;
-
     @Override
     @TccTransaction(confirmMethod = "cm", cancelMethod = "cl", executeClass = DefaultDemoService.class)
     public String rpc(String name) {
+        /*
+         * 注意 5.0.0.RC2 请用 DTXLocal 类
+         * 注意 5.0.0.RC2 请自行获取应用名称
+         * 注意 5.0.0.RC2 其它类重新导入包名
+         */
+
         Demo demo = new Demo();
         demo.setDemoField(name);
         demo.setCreateTime(new Date());
-        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
-        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
-        demo.setAppName(appName);
+        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
+        demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
+        demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);
         demoMapper.save(demo);
-        ids.put(DTXLocal.cur().getGroupId(), demo.getId());
+        ids.put(DTXLocalContext.cur().getGroupId(), demo.getId());
         return "e-ok";
     }
 
     public void cm(String name) {
-        log.info("tcc-confirm-" + DTXLocal.getOrNew().getGroupId());
-        ids.remove(DTXLocal.getOrNew().getGroupId());
+        log.info("tcc-confirm-" + DTXLocalContext.getOrNew().getGroupId());
+        ids.remove(DTXLocalContext.getOrNew().getGroupId());
     }
 
     public void cl(String name) {
-        log.info("tcc-cancel-" + DTXLocal.getOrNew().getGroupId());
-        demoMapper.deleteById(ids.get(DTXLocal.getOrNew().getGroupId()));
+        log.info("tcc-cancel-" + DTXLocalContext.getOrNew().getGroupId());
+        demoMapper.deleteByKId(ids.get(DTXLocalContext.getOrNew().getGroupId()));
     }
 }

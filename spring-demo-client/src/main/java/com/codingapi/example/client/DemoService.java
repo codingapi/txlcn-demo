@@ -1,4 +1,4 @@
-package com.codingapi.example.client.service;
+package com.codingapi.example.client;
 
 /**
  * Description:
@@ -7,5 +7,8 @@ package com.codingapi.example.client.service;
  * @author ujued
  */
 public interface DemoService {
+
+    String transactionA();
+
     String execute(String value);
 }
