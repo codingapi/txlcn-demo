@@ -5,7 +5,7 @@ import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.db.mapper.DemoMapper;
 import com.codingapi.example.common.dubbo.DDemoService;
 import com.codingapi.example.common.dubbo.EDemoService;
-import com.codingapi.txlcn.client.bean.DTXLocal;
+import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import com.example.service.DemoApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +56,8 @@ public class DemoApiServiceImpl implements DemoApiService {
         demo.setCreateTime(new Date());
         demo.setAppName(appName);
         demo.setDemoField(name);
-        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
-        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
+        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
+        demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
         demoMapper.save(demo);
         return dResp + " > " + eResp + " > " + "client-ok";
     }

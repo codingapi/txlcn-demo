@@ -5,7 +5,7 @@ import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.db.mapper.DemoMapper;
 import com.codingapi.example.common.dubbo.DDemoService;
 import com.codingapi.example.common.dubbo.EDemoService;
-import com.codingapi.txlcn.client.bean.DTXLocal;
+import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import com.codingapi.txlcn.commons.annotation.LcnTransaction;
 import com.codingapi.txlcn.commons.annotation.TxcTransaction;
 import com.example.service.DemoApiService;
@@ -58,8 +58,8 @@ public class DemoApiServiceImpl implements DemoApiService {
         demo.setCreateTime(new Date());
         demo.setAppName(appName);
         demo.setDemoField(name);
-        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
-        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
+        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
+        demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
         demoMapper.save(demo);
         return dResp + " > " + eResp + " > " + "client-ok";
     }

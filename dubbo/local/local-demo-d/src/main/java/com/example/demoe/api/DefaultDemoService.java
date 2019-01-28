@@ -3,7 +3,7 @@ package com.example.demoe.api;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.dubbo.DDemoService;
-import com.codingapi.txlcn.client.bean.DTXLocal;
+import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import com.example.demoe.mapper.DDemoMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +42,9 @@ public class DefaultDemoService implements DDemoService {
         Demo demo = new Demo();
         demo.setDemoField(name);
         demo.setCreateTime(new Date());
-        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
+        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
         demo.setAppName(appName);
-        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
+        demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
         demoMapper.save(demo);
         return "d-ok";
     }

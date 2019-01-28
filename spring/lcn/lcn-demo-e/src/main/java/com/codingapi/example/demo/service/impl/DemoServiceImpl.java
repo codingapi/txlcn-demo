@@ -3,7 +3,7 @@ package com.codingapi.example.demo.service.impl;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.demo.mapper.EDemoMapper;
 import com.codingapi.example.demo.service.DemoService;
-import com.codingapi.txlcn.client.bean.DTXLocal;
+import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import com.codingapi.txlcn.commons.annotation.DTXPropagation;
 import com.codingapi.txlcn.commons.annotation.LcnTransaction;
 import com.codingapi.txlcn.commons.annotation.TccTransaction;
@@ -49,13 +49,13 @@ public class DemoServiceImpl implements DemoService {
         demo.setDemoField(value);
         demo.setCreateTime(new Date());
         demo.setAppName(appName);
-        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
-        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
+        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
+        demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
 //        demoMapper.save(demo);
 //        demoMapper.deleteById(1L);
         demoMapper.save(demo);
 //        demoMapper.save(demo);
-//        ids.put(DTXLocal.cur().getGroupId(), demo.getId());
+//        ids.put(DTXLocalContext.cur().getGroupId(), demo.getId());
 
 //        int v = 100/0;
 
@@ -65,12 +65,12 @@ public class DemoServiceImpl implements DemoService {
     }
 
     public void confirmRpc(String value) {
-        log.info("tcc-confirm-" + DTXLocal.getOrNew().getGroupId());
-        ids.remove(DTXLocal.getOrNew().getGroupId());
+        log.info("tcc-confirm-" + DTXLocalContext.getOrNew().getGroupId());
+        ids.remove(DTXLocalContext.getOrNew().getGroupId());
     }
 
     public void cancelRpc(String value) {
-        log.info("tcc-cancel-" + DTXLocal.getOrNew().getGroupId());
-        demoMapper.deleteById(ids.get(DTXLocal.getOrNew().getGroupId()));
+        log.info("tcc-cancel-" + DTXLocalContext.getOrNew().getGroupId());
+        demoMapper.deleteById(ids.get(DTXLocalContext.getOrNew().getGroupId()));
     }
 }

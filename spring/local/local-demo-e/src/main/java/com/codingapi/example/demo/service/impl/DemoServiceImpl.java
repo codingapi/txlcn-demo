@@ -3,7 +3,7 @@ package com.codingapi.example.demo.service.impl;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.demo.mapper.EDemoMapper;
 import com.codingapi.example.demo.service.DemoService;
-import com.codingapi.txlcn.client.bean.DTXLocal;
+import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,8 +39,8 @@ public class DemoServiceImpl implements DemoService {
         demo.setDemoField(value);
         demo.setCreateTime(new Date());
         demo.setAppName(appName);
-        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
-        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
+        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
+        demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
         demoMapper.save(demo);
 
         return "ok-e";

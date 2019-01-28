@@ -3,7 +3,7 @@ package com.example.demoe.api;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.dubbo.DDemoService;
-import com.codingapi.txlcn.client.bean.DTXLocal;
+import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import com.codingapi.txlcn.commons.annotation.LcnTransaction;
 import com.codingapi.txlcn.commons.annotation.TxcTransaction;
 import com.example.demoe.mapper.DDemoMapper;
@@ -44,9 +44,9 @@ public class DefaultDemoService implements DDemoService {
         Demo demo = new Demo();
         demo.setDemoField(name);
         demo.setCreateTime(new Date());
-        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
+        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
         demo.setAppName(appName);
-        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
+        demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
         demoMapper.save(demo);
         return "d-ok";
     }
