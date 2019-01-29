@@ -30,13 +30,13 @@ public class DemoApiServiceImpl implements DemoApiService {
     @Reference(version = "${demo.service.version}",
             application = "${dubbo.application.d}",
             registry = "${dubbo.registry.address}",
-            retries = -1,
+            retries = -1, check = false,
             loadbalance = "txlcn_random")
     private DDemoService dDemoService;
 
     @Reference(version = "${demo.service.version}",
             application = "${dubbo.application.e}",
-            retries = -1,
+            retries = -1, check = false,
             registry = "${dubbo.registry.address}",
             loadbalance = "txlcn_random")
     private EDemoService eDemoService;

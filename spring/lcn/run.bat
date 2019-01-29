@@ -1,5 +1,7 @@
 @echo off
 
+cd dubbo/lcn
+
 start java -jar  -Xms256m -Xmx512m  lcn-demo-client/target/lcn-spring-demo-client-5.0.0.RC2.jar
 
 start java -jar  -Xms256m -Xmx512m  lcn-demo-d/target/lcn-spring-demo-d-5.0.0.RC2.jar
