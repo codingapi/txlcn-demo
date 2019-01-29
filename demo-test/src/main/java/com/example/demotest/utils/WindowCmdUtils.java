@@ -24,7 +24,7 @@ public class WindowCmdUtils {
             if(StringUtils.isEmpty(res)){
                 res = read(proc.getErrorStream());
             }
-            file.deleteOnExit();
+            file.delete();
             return res;
         } catch (Exception e) {
             e.printStackTrace();

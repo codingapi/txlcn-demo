@@ -1,6 +1,6 @@
 @echo off
 
-cd dubbo/tcc
+cd spring/tcc
 
 start java -jar  -Xms256m -Xmx512m  tcc-demo-client/target/tcc-spring-demo-client-5.0.0.RC2.jar
 

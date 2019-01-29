@@ -1,6 +1,6 @@
 @echo off
 
-cd dubbo/local
+cd spring/local
 
 start java -jar  -Xms256m -Xmx512m  local-demo-client/target/local-spring-demo-client-5.0.0.RC2.jar
 
