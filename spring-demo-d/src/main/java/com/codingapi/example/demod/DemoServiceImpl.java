@@ -44,8 +44,8 @@ public class DemoServiceImpl implements DemoService {
         Demo demo = new Demo();
         demo.setCreateTime(new Date());
         demo.setDemoField(value);
-        demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);
-        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
+        demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);  // 应用名称
+        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());   // DTXLocal
         demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
         demoMapper.save(demo);
         moreOperateMapper.update(new Date());

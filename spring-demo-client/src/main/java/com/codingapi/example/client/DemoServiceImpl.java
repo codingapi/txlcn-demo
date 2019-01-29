@@ -63,9 +63,9 @@ public class DemoServiceImpl implements DemoService {
         // local transaction
         Demo demo = new Demo();
         demo.setDemoField(value);
-        demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);
+        demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING); // 应用名称
         demo.setCreateTime(new Date());
-        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
+        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());  // DTXLocal
         demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
         demoMapper.save(demo);
         long time = System.currentTimeMillis() - start;

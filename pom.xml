@@ -68,68 +68,13 @@
 
             <dependency>
                 <groupId>com.codingapi.txlcn</groupId>
-                <artifactId>tx-client-springcloud</artifactId>
+                <artifactId>txlcn-tc</artifactId>
                 <version>${codingapi.txlcn.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.codingapi.txlcn</groupId>
-                <artifactId>tx-client-dubbo</artifactId>
-                <version>${codingapi.txlcn.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.codingapi.txlcn</groupId>
-                <artifactId>tx-jdbcproxy-p6spy</artifactId>
-                <version>${codingapi.txlcn.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.codingapi.txlcn</groupId>
-                <artifactId>tx-spi-sleuth-dubbo</artifactId>
-                <version>${codingapi.txlcn.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.codingapi.txlcn</groupId>
-                <artifactId>tx-client</artifactId>
-                <version>${codingapi.txlcn.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.codingapi.txlcn</groupId>
-                <artifactId>tx-spi-sleuth-springcloud</artifactId>
-                <version>${codingapi.txlcn.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.codingapi.txlcn</groupId>
-                <artifactId>tx-spi-message-netty</artifactId>
-                <version>${codingapi.txlcn.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.codingapi.txlcn</groupId>
-                <artifactId>tx-commons</artifactId>
-                <version>${codingapi.txlcn.version}</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>com.codingapi.txlcn</groupId>
-                <artifactId>tx-logger</artifactId>
-                <version>${codingapi.txlcn.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.codingapi.txlcn</groupId>
-                <artifactId>tx-spi-message</artifactId>
-                <version>${codingapi.txlcn.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.codingapi.txlcn</groupId>
-                <artifactId>tx-spi-sleuth</artifactId>
+                <artifactId>txlcn-txmsg-netty</artifactId>
                 <version>${codingapi.txlcn.version}</version>
             </dependency>
 
