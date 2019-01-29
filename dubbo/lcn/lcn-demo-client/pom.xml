@@ -21,10 +21,7 @@
             <version>5.0.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.codingapi.txlcn</groupId>
-            <artifactId>tx-client-dubbo</artifactId>
-        </dependency>
+
 
         <dependency>
             <groupId>com.alibaba.boot</groupId>

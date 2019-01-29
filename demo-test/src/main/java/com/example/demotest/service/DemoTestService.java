@@ -64,7 +64,7 @@ public class DemoTestService {
 
                 //检查服务状态
                 int tryCount = 0;
-                while (WindowWgetUtils.state(url)==false){
+                while (!WindowWgetUtils.state(url)){
                     try {
                         Thread.sleep(1000*10);
                     } catch (InterruptedException e) {
@@ -86,13 +86,12 @@ public class DemoTestService {
                 boolean isOk = testDao.isOk();
                 System.out.println("isOk:"+isOk);
 
+                //获取报告结果并保存数据
                 Result result =  HtmlParserUtils.parser(path+"//"+report);
                 result.setCreate_time(new Date());
                 result.setIs_ok(isOk?"success":"error");
                 result.setType(type);
                 result.setModel(item);
-
-
                 resultDao.save(result);
 
                 //杀死服务

@@ -24,10 +24,6 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>com.codingapi.txlcn</groupId>
-            <artifactId>tx-client-dubbo</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>com.alibaba.boot</groupId>

@@ -25,11 +25,6 @@
 
 
         <dependency>
-            <groupId>com.codingapi.txlcn</groupId>
-            <artifactId>tx-client-dubbo</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.alibaba.boot</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
             <version>0.2.0</version>
