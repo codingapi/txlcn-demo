@@ -1,4 +1,4 @@
-package com.codingapi.example.client;
+package com.codingapi.txlcn.demo.service1;
 
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.spring.DDemoClient;
@@ -45,8 +45,8 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
-    @LcnTransaction
-    public String execute(String value) {
+    @TxcTransaction
+    public String transactionB(String value) {
         /*
          * 注意 5.0.0.RC2 请用 DTXLocal 类
          * 注意 5.0.0.RC2 请自行获取应用名称
@@ -67,7 +67,9 @@ public class DemoServiceImpl implements DemoService {
         demo.setCreateTime(new Date());
         demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
         demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
-        demoMapper.save(demo);
+        for (int i = 0; i < 10; i++) {
+            demoMapper.save(demo);
+        }
         long time = System.currentTimeMillis() - start;
 
         // 稍后输出DTX B所用时间
@@ -82,6 +84,12 @@ public class DemoServiceImpl implements DemoService {
 //        int i = 1 / 0;
 
         return dResp + " > " + eResp + " > " + "ok-client";
+    }
+
+    @Override
+    @LcnTransaction
+    public String transactionC() {
+        return "transactionC";
     }
 
 

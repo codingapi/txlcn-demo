@@ -1,11 +1,14 @@
 package com.example.demoe;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.dubbo.EDemoService;
+import com.codingapi.example.common.dubbo.Service4DemoService;
 import com.codingapi.txlcn.commons.annotation.TccTransaction;
 import com.codingapi.txlcn.commons.util.Transactions;
 import com.codingapi.txlcn.tc.core.DTXLocalContext;
+import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,6 +34,13 @@ public class DefaultDemoService implements EDemoService {
     @Autowired
     private EDemoMapper demoMapper;
 
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.service4}",
+            retries = -1,
+            registry = "${dubbo.registry.address}",
+            loadbalance = "txlcn_random")
+    private Service4DemoService service4DemoService;
+
     private ConcurrentHashMap<String, Long> ids = new ConcurrentHashMap<>();
 
     @Override
@@ -41,6 +51,8 @@ public class DefaultDemoService implements EDemoService {
          * 注意 5.0.0.RC2 请自行获取应用名称
          * 注意 5.0.0.RC2 其它类重新导入包名
          */
+        log.info("GroupId: {}", TracingContext.tracing().groupId());
+        service4DemoService.transactionC(name);
 
         Demo demo = new Demo();
         demo.setDemoField(name);

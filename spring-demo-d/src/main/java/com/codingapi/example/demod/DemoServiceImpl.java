@@ -6,6 +6,8 @@ import com.codingapi.txlcn.commons.annotation.TxcTransaction;
 import com.codingapi.txlcn.commons.util.Transactions;
 import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import com.codingapi.txlcn.tc.support.DTXAspectSupport;
+import com.codingapi.txlcn.tracing.TracingContext;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ import java.util.Date;
  * @author ujued
  */
 @Service
+@Slf4j
 public class DemoServiceImpl implements DemoService {
 
     private final DDemoMapper demoMapper;
@@ -41,16 +44,18 @@ public class DemoServiceImpl implements DemoService {
          * 注意 5.0.0.RC2 请自行获取应用名称
          * 注意 5.0.0.RC2 其它类重新导入包名
          */
+//        log.info("GroupId: {}", TracingContext.tracing().groupId());
         Demo demo = new Demo();
         demo.setCreateTime(new Date());
         demo.setDemoField(value);
         demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);
         demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
         demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
-        demoMapper.save(demo);
-        moreOperateMapper.update(new Date());
+        for (int i = 0; i < 10; i++) {
+            demoMapper.save(demo);
+        }
+//        moreOperateMapper.update(new Date());
 //        moreOperateMapper.delete();
-        DTXAspectSupport.setRollbackOnly();
         return "ok-d";
     }
 }

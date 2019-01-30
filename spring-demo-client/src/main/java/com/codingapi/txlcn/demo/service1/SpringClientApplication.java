@@ -1,4 +1,4 @@
-package com.codingapi.example.client;
+package com.codingapi.txlcn.demo.service1;
 
 import com.codingapi.txlcn.tc.config.EnableDistributedTransaction;
 import org.springframework.boot.SpringApplication;

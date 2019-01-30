@@ -24,7 +24,12 @@
 
         <dependency>
             <groupId>com.codingapi.txlcn</groupId>
-            <artifactId>tx-client-springcloud</artifactId>
+            <artifactId>tx-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.codingapi.txlcn</groupId>
+            <artifactId>tx-spi-message-netty</artifactId>
         </dependency>
 
         <dependency>

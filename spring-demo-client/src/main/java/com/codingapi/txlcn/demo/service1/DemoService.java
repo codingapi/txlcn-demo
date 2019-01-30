@@ -1,4 +1,4 @@
-package com.codingapi.example.client;
+package com.codingapi.txlcn.demo.service1;
 
 /**
  * Description:
@@ -10,5 +10,7 @@ public interface DemoService {
 
     String transactionA();
 
-    String execute(String value);
+    String transactionB(String value);
+
+    String transactionC();
 }

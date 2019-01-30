@@ -6,11 +6,9 @@ import com.codingapi.example.common.db.mapper.DemoMapper;
 import com.codingapi.example.common.dubbo.DDemoService;
 import com.codingapi.example.common.dubbo.EDemoService;
 import com.codingapi.txlcn.commons.annotation.LcnTransaction;
-import com.codingapi.txlcn.commons.annotation.TxTransaction;
 import com.codingapi.txlcn.commons.util.Transactions;
 import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

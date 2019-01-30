@@ -1,8 +1,9 @@
-package com.codingapi.example.client;
+package com.codingapi.txlcn.demo.service1;
 
 import com.codingapi.txlcn.tc.aspect.interceptor.DTXInterceptor;
 import com.codingapi.txlcn.tc.aspect.weave.DTXLogicWeaver;
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.transaction.TransactionProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,7 @@ import java.util.Properties;
 @EnableConfigurationProperties(TransactionProperties.class)
 public class TransactionConfiguration {
 
+    @ConditionalOnBean(DTXLogicWeaver.class)
     @Bean
     public TransactionInterceptor transactionInterceptor(PlatformTransactionManager transactionManager, DTXLogicWeaver dtxLogicWeaver) {
         Properties properties = new Properties();
