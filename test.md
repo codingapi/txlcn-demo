@@ -21,27 +21,27 @@ S5. 在SpringCloud下测试本地事务在并发20情况下循环请求的吞吐
 
 硬件环境:
 CPU: Intel(R) Core(TM) I5-8400 CPU @ 2.80GHz 2.81GHz   
-内存: 16G   
-硬盘：240G SSD    
+内存: 16G     
+硬盘：240G SSD      
 
 
 软件环境:
-系统:win10 64   
-JAVA: 1.8.0_181  
-Mysql: 5.7.23   
-Consul: 1.2.3   
-Zookeeper:3.4.9  
-Dubbo:2.6.2
-SpringCloud:Finchley.SR2
+系统:win10 64     
+JAVA: 1.8.0_181    
+Mysql: 5.7.23     
+Consul: 1.2.3     
+Zookeeper:3.4.9    
+Dubbo:2.6.2   
+SpringCloud:Finchley.SR2  
 
 
 
 ## 测试模块
 
-Client D E 三个模块,Client调用一次D模块在调用一次E模块。  
+Client D E 三个模块,Client调用一次D模块在调用一次E模块。    
 
-Client.sayHello() -> D.rpc();   
-Client.sayHello() -> E.rpc();   
+Client.sayHello() -> D.rpc();     
+Client.sayHello() -> E.rpc();     
 
 
 ### 重要配置信息
