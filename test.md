@@ -70,7 +70,7 @@ jvm  -Xms256m -Xmx512m
 
 在相同条件下各种事务模式的效率关系
 
-lcn > txc > tcc 
+LCN > TXC > TCC 
 
 相比本地事务各模式的下降率
 
