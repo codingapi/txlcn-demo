@@ -1,6 +1,11 @@
 package com.example.service.impl;
 
+import com.alibaba.boot.dubbo.util.DubboUtils;
+import com.alibaba.dubbo.config.ApplicationConfig;
+import com.alibaba.dubbo.config.ProviderConfig;
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.dubbo.rpc.Protocol;
+import com.alibaba.dubbo.rpc.support.ProtocolUtils;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.db.mapper.DemoMapper;
 import com.codingapi.example.common.dubbo.DDemoService;

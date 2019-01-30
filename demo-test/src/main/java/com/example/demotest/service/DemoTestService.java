@@ -53,9 +53,8 @@ public class DemoTestService {
             File testFile = new File(path+type+"/"+item+"/run.bat");
             System.out.println(testFile.getPath());
             if(testFile.exists()){
-
                 //杀死服务
-                List<Item> items =  WindowJavaUtils.javaAll(item+"-"+type);
+                List<Item> items = WindowJavaUtils.javaAll(item + "-" + type);
                 WindowJavaUtils.kill(items);
 
 
@@ -64,14 +63,14 @@ public class DemoTestService {
 
                 //检查服务状态
                 int tryCount = 0;
-                while (!WindowWgetUtils.state(url)){
+                while (!WindowWgetUtils.state(url)) {
                     try {
-                        Thread.sleep(1000*10);
+                        Thread.sleep(1000 * 10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     tryCount++;
-                    if(tryCount==100){
+                    if (tryCount == 100) {
                         System.out.println("服务启动有问题.");
                         System.exit(1);
                     }
@@ -81,23 +80,22 @@ public class DemoTestService {
                 testDao.truncateDemo();
 
                 //执行Jmeter测试
-                String report = JmeterUtils.run(type,item);
+                String report = JmeterUtils.run(type, item);
 
                 boolean isOk = testDao.isOk();
-                System.out.println("isOk:"+isOk);
+                System.out.println("isOk:" + isOk);
 
                 //获取报告结果并保存数据
-                Result result =  HtmlParserUtils.parser(path+"//"+report);
+                Result result = HtmlParserUtils.parser(path + "//" + report);
                 result.setCreate_time(new Date());
-                result.setIs_ok(isOk?"success":"error");
+                result.setIs_ok(isOk ? "success" : "error");
                 result.setType(type);
                 result.setModel(item);
                 resultDao.save(result);
 
                 //杀死服务
-                items =  WindowJavaUtils.javaAll(item+"-"+type);
+                items = WindowJavaUtils.javaAll(item + "-" + type);
                 WindowJavaUtils.kill(items);
-
             }
         }
     }
