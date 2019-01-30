@@ -2,7 +2,7 @@ package com.example;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.codingapi.example.common.dubbo.Service4DemoService;
-import com.codingapi.txlcn.commons.annotation.LcnTransaction;
+import com.codingapi.txlcn.tc.annotation.LcnTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

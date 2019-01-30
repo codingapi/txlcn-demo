@@ -2,12 +2,10 @@ package com.codingapi.example.demo;
 
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.spring.Service1Client;
-import com.codingapi.txlcn.commons.annotation.DTXPropagation;
-import com.codingapi.txlcn.commons.annotation.TccTransaction;
-import com.codingapi.txlcn.commons.annotation.TxcTransaction;
-import com.codingapi.txlcn.commons.util.Transactions;
+import com.codingapi.txlcn.common.util.Transactions;
+import com.codingapi.txlcn.tc.annotation.DTXPropagation;
+import com.codingapi.txlcn.tc.annotation.TxcTransaction;
 import com.codingapi.txlcn.tc.core.DTXLocalContext;
-import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

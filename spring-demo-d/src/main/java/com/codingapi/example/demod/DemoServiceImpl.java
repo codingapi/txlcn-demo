@@ -1,12 +1,10 @@
 package com.codingapi.example.demod;
 
 import com.codingapi.example.common.db.domain.Demo;
-import com.codingapi.txlcn.commons.annotation.DTXPropagation;
-import com.codingapi.txlcn.commons.annotation.TxcTransaction;
-import com.codingapi.txlcn.commons.util.Transactions;
+import com.codingapi.txlcn.common.util.Transactions;
+import com.codingapi.txlcn.tc.annotation.DTXPropagation;
+import com.codingapi.txlcn.tc.annotation.TxcTransaction;
 import com.codingapi.txlcn.tc.core.DTXLocalContext;
-import com.codingapi.txlcn.tc.support.DTXAspectSupport;
-import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,8 +46,8 @@ public class DemoServiceImpl implements DemoService {
         Demo demo = new Demo();
         demo.setCreateTime(new Date());
         demo.setDemoField(value);
-        demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);
-        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
+        demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);  // 应用名称
+        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());   // DTXLocal
         demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
         for (int i = 0; i < 10; i++) {
             demoMapper.save(demo);

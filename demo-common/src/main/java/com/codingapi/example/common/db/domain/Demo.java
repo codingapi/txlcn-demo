@@ -1,12 +1,11 @@
 package com.codingapi.example.common.db.domain;
 
-import com.codingapi.txlcn.commons.util.RandomUtils;
+import com.codingapi.txlcn.common.util.RandomUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.stream.Stream;
 
 /**
  * Description:
