@@ -2,19 +2,19 @@
 
 ## 方式说明
 
-SpringCloud下测试:   
-S1. 在SpringCloud下测试单LCN模块在并发20情况下循环请求的吞吐能力。   
-S2. 在SpringCloud下测试单TXC模块在并发20情况下循环请求的吞吐能力。   
-S3. 在SpringCloud下测试单TCC模块在并发20情况下循环请求的吞吐能力。   
-S4. 在SpringCloud下测试TCC、TXC、LCN混合模块下在并发20情况下循环请求的吞吐能力。   
-S5. 在SpringCloud下测试本地事务在并发20情况下循环请求的吞吐能力。   
-
 Dubbo下测试:   
 D1. 在Dubbo下测试单LCN模块在并发20情况下循环请求的吞吐能力。   
 D2. 在Dubbo下测试单TXC模块在并发20情况下循环请求的吞吐能力。   
 D3. 在Dubbo下测试单TCC模块在并发20情况下循环请求的吞吐能力。   
 D4. 在Dubbo下测试TCC、TXC、LCN混合模块下在并发20情况下循环请求的吞吐能力。   
 D5. 在Dubbo下测试本地事务在并发20情况下循环请求的吞吐能力。   
+
+SpringCloud下测试:   
+S1. 在SpringCloud下测试单LCN模块在并发20情况下循环请求的吞吐能力。   
+S2. 在SpringCloud下测试单TXC模块在并发20情况下循环请求的吞吐能力。   
+S3. 在SpringCloud下测试单TCC模块在并发20情况下循环请求的吞吐能力。   
+S4. 在SpringCloud下测试TCC、TXC、LCN混合模块下在并发20情况下循环请求的吞吐能力。   
+S5. 在SpringCloud下测试本地事务在并发20情况下循环请求的吞吐能力。   
 
 
 ## 测试环境
