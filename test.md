@@ -70,17 +70,17 @@ jvm  -Xms256m -Xmx512m
 
 在相同条件下各种事务模式的效率关系
 
-LCN > TXC > TCC 
+TCC > LCN > TXC   
 
 相比本地事务各模式的下降率
 
 | 框架   |     模式    |  下降率|
 |----------|:-------------:|:-------------:|
-| Dubbo | LCN | 27.6% |
-| Dubbo | TXC | 30.9% |
-| Dubbo | TCC | 34.8% |
-| SpringCloud | LCN | 12.4% |
-| SpringCloud | TXC | 19.3% |
-| SpringCloud | TCC | 19.3%  |
+| Dubbo | LCN | 31.3% |
+| Dubbo | TXC | 36.1% |
+| Dubbo | TCC | 28.6% |
+| SpringCloud | LCN | 21.5% |
+| SpringCloud | TXC | 27.1% |
+| SpringCloud | TCC | 21.5%  |
 
  

@@ -70,12 +70,12 @@ public class DemoApiServiceImpl implements DemoApiService {
     }
 
     public void confirmRpc(String value) {
-        log.info("tcc-confirm-" + DTXLocalContext.getOrNew().getGroupId());
+        //log.info("tcc-confirm-" + DTXLocalContext.getOrNew().getGroupId());
         ids.remove(DTXLocalContext.getOrNew().getGroupId());
     }
 
     public void cancelRpc(String value) {
-        log.info("tcc-cancel-" + DTXLocalContext.getOrNew().getGroupId());
+        //log.info("tcc-cancel-" + DTXLocalContext.getOrNew().getGroupId());
         demoMapper.deleteById(ids.get(DTXLocalContext.getOrNew().getGroupId()));
     }
 
