@@ -4,7 +4,7 @@ import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.demod.mapper.DDemoMapper;
 import com.codingapi.example.demod.service.DemoService;
 import com.codingapi.txlcn.tc.core.DTXLocalContext;
-import com.codingapi.txlcn.commons.annotation.TxcTransaction;
+import com.codingapi.txlcn.tc.annotation.TxcTransaction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

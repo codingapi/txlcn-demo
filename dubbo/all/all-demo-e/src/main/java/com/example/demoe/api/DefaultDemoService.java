@@ -4,7 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.dubbo.EDemoService;
 import com.codingapi.txlcn.tc.core.DTXLocalContext;
-import com.codingapi.txlcn.commons.annotation.TxcTransaction;
+import com.codingapi.txlcn.tc.annotation.TxcTransaction;
 import com.example.demoe.mapper.EDemoMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
