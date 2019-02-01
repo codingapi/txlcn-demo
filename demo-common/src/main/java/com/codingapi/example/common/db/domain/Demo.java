@@ -1,6 +1,6 @@
 package com.codingapi.example.common.db.domain;
 
-import com.codingapi.txlcn.common.util.RandomUtils;
+import com.codingapi.txlcn.common.util.id.RandomUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

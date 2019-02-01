@@ -1,7 +1,7 @@
 package com.codingapi.example.demod;
 
 import com.codingapi.txlcn.common.util.Maps;
-import com.codingapi.txlcn.tc.core.txc.analy.def.PrimaryKeysProvider;
+import com.codingapi.txlcn.tc.core.transaction.txc.analy.def.PrimaryKeysProvider;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
