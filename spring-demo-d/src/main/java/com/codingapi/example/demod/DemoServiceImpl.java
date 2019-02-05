@@ -24,14 +24,11 @@ public class DemoServiceImpl implements DemoService {
 
     private final DDemoMapper demoMapper;
 
-    private final MoreOperateMapper moreOperateMapper;
 
     @Autowired
-    public DemoServiceImpl(DDemoMapper demoMapper, MoreOperateMapper moreOperateMapper) {
+    public DemoServiceImpl(DDemoMapper demoMapper) {
         this.demoMapper = demoMapper;
-        this.moreOperateMapper = moreOperateMapper;
     }
-
 
     @Override
     @TxcTransaction(propagation = DTXPropagation.SUPPORTS)
@@ -49,9 +46,7 @@ public class DemoServiceImpl implements DemoService {
         demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);  // 应用名称
         demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());   // DTXLocal
         demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
-        for (int i = 0; i < 10; i++) {
-            demoMapper.save(demo);
-        }
+        demoMapper.save(demo);
 //        moreOperateMapper.update(new Date());
 //        moreOperateMapper.delete();
         return "ok-d";

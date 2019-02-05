@@ -23,12 +23,8 @@ public class DemoController {
 
     @RequestMapping("/txlcn")
     public String execute(@RequestParam("value") String value) {
-        String result1 = demoService.transactionA();
-        return "DTX A:" + result1 + " | DTX B:" + demoService.transactionB(value);
+        return  demoService.execute(value);
     }
 
-    @RequestMapping("/call-by-e")
-    public String callByE(@RequestParam("value") String value) {
-        return demoService.transactionC();
-    }
+
 }

@@ -1,7 +1,6 @@
 package com.codingapi.example.demo;
 
 import com.codingapi.example.common.db.domain.Demo;
-import com.codingapi.example.common.spring.Service1Client;
 import com.codingapi.txlcn.common.util.Transactions;
 import com.codingapi.txlcn.tc.annotation.DTXPropagation;
 import com.codingapi.txlcn.tc.annotation.TxcTransaction;
@@ -26,14 +25,11 @@ public class DemoServiceImpl implements DemoService {
 
     private final EDemoMapper demoMapper;
 
-    private final Service1Client service1Client;
-
     private ConcurrentHashMap<String, Long> ids = new ConcurrentHashMap<>();
 
     @Autowired
-    public DemoServiceImpl(EDemoMapper demoMapper, Service1Client service1Client) {
+    public DemoServiceImpl(EDemoMapper demoMapper) {
         this.demoMapper = demoMapper;
-        this.service1Client = service1Client;
     }
 
     @Override
@@ -47,18 +43,13 @@ public class DemoServiceImpl implements DemoService {
          */
 //        log.info("GroupId: {}", TracingContext.tracing().groupId());
 
-        service1Client.transactionC(value);
-
         Demo demo = new Demo();
         demo.setDemoField(value);
         demo.setCreateTime(new Date());
         demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);
         demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
         demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
-
-        for (int i = 0; i < 10; i++) {
-            demoMapper.save(demo);
-        }
+        demoMapper.save(demo);
 //        ids.put(DTXLocalContext.getOrNew().getGroupId(), demo.getId());
         return "ok-e";
     }

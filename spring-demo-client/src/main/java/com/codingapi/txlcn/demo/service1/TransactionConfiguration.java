@@ -15,7 +15,7 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 import java.util.Properties;
 
 /**
- * Description:
+ * Description: 本地事务扫描配置示例
  * Date: 19-1-13 下午2:46
  *
  * @author ujued
