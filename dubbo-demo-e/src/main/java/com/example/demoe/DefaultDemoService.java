@@ -1,10 +1,8 @@
 package com.example.demoe;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.dubbo.EDemoService;
-import com.codingapi.example.common.dubbo.Service4DemoService;
 import com.codingapi.txlcn.common.util.Transactions;
 import com.codingapi.txlcn.tc.annotation.TccTransaction;
 import com.codingapi.txlcn.tc.core.DTXLocalContext;
@@ -34,26 +32,17 @@ public class DefaultDemoService implements EDemoService {
     @Autowired
     private EDemoMapper demoMapper;
 
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.service4}",
-            retries = -1,
-            registry = "${dubbo.registry.address}",
-            loadbalance = "txlcn_random")
-    private Service4DemoService service4DemoService;
-
     private ConcurrentHashMap<String, Long> ids = new ConcurrentHashMap<>();
 
     @Override
     @TccTransaction(confirmMethod = "cm", cancelMethod = "cl", executeClass = DefaultDemoService.class)
     public String rpc(String name) {
         /*
-         * 注意 5.0.0.RC2 请用 DTXLocal 类
-         * 注意 5.0.0.RC2 请自行获取应用名称
-         * 注意 5.0.0.RC2 其它类重新导入包名
+         * 注意 5.0.0 请用 DTXLocal 类
+         * 注意 5.0.0 请自行获取应用名称
+         * 注意 5.0.0 其它类重新导入包名
          */
         log.info("GroupId: {}", TracingContext.tracing().groupId());
-        service4DemoService.transactionC(name);
-
         Demo demo = new Demo();
         demo.setDemoField(name);
         demo.setCreateTime(new Date());

@@ -27,12 +27,14 @@ public class DemoApiServiceImpl implements DemoApiService {
             application = "${dubbo.application.d}",
             registry = "${dubbo.registry.address}",
             retries = -1,
+            check = false,
             loadbalance = "txlcn_random")
     private DDemoService dDemoService;
 
     @Reference(version = "${demo.service.version}",
             application = "${dubbo.application.e}",
             retries = -1,
+            check = false,
             registry = "${dubbo.registry.address}",
             loadbalance = "txlcn_random")
     private EDemoService eDemoService;
@@ -45,9 +47,9 @@ public class DemoApiServiceImpl implements DemoApiService {
     public String execute(String name) {
 
         /*
-         * 注意 5.0.0.RC2 请用 DTXLocal 类
-         * 注意 5.0.0.RC2 请自行获取应用名称
-         * 注意 5.0.0.RC2 其它类重新导入包名
+         * 注意 5.0.0 请用 DTXLocal 类
+         * 注意 5.0.0 请自行获取应用名称
+         * 注意 5.0.0 其它类重新导入包名
          */
         String dResp = dDemoService.rpc(name);
         String eResp = eDemoService.rpc(name);

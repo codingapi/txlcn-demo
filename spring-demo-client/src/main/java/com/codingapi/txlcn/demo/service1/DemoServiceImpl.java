@@ -48,9 +48,9 @@ public class DemoServiceImpl implements DemoService {
     @TxcTransaction
     public String transactionB(String value) {
         /*
-         * 注意 5.0.0.RC2 请用 DTXLocal 类
-         * 注意 5.0.0.RC2 请自行获取应用名称
-         * 注意 5.0.0.RC2 其它类重新导入包名
+         * 注意 5.0.0 请用 DTXLocal 类
+         * 注意 5.0.0 请自行获取应用名称
+         * 注意 5.0.0 其它类重新导入包名
          */
         long start = System.currentTimeMillis();
 
