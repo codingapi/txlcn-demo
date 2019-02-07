@@ -23,7 +23,7 @@ public class DemoTestService {
     @Autowired
     private ResultDao resultDao;
 
-    String path = "d://developer/idea/txlcn-demo/";
+    String path = "C://developer/idea/txlcn-demo/";
 
 
     public void dubbo(){
