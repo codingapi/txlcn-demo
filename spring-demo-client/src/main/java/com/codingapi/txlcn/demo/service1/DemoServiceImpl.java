@@ -4,7 +4,6 @@ import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.spring.DDemoClient;
 import com.codingapi.example.common.spring.EDemoClient;
 import com.codingapi.txlcn.common.util.Transactions;
-import com.codingapi.txlcn.tc.annotation.TxcTransaction;
 import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,6 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
-    @TxcTransaction
     public String execute(String value) {
         /*
          * 注意 5.0.0 请用 DTXLocal 类
