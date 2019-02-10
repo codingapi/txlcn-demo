@@ -3,12 +3,11 @@ package com.codingapi.example.demo;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.txlcn.common.util.Transactions;
 import com.codingapi.txlcn.tc.annotation.DTXPropagation;
-import com.codingapi.txlcn.tc.annotation.TxcTransaction;
+import com.codingapi.txlcn.tc.annotation.TccTransaction;
 import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,8 +32,7 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
-    @TxcTransaction(propagation = DTXPropagation.SUPPORTS)
-    @Transactional
+    @TccTransaction(propagation = DTXPropagation.SUPPORTS)
     public String rpc(String value) {
         /*
          * 注意 5.0.0 请用 DTXLocal 类
@@ -50,7 +48,7 @@ public class DemoServiceImpl implements DemoService {
         demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
         demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
         demoMapper.save(demo);
-//        ids.put(DTXLocalContext.getOrNew().getGroupId(), demo.getId());
+        ids.put(DTXLocalContext.getOrNew().getGroupId(), demo.getId());
         return "ok-e";
     }
 

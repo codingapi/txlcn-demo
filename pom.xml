@@ -30,14 +30,16 @@
         <java.version>1.8</java.version>
 
         <codingapi.txlcn.version>5.0.0.RELEASE</codingapi.txlcn.version>
-        <springcloud.version>Greenwich.RELEASE</springcloud.version>
+        <springcloud.version>Edgware.RELEASE</springcloud.version>
         <lombok.version>1.18.0</lombok.version>
+
+        <txlcn-org.springframework.cloud.commons.version>1.3.5.RELEASE</txlcn-org.springframework.cloud.commons.version>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.2.RELEASE</version>
+        <version>1.5.9.RELEASE</version>
         <relativePath/>
     </parent>
 

@@ -57,10 +57,11 @@ public class TransactionConfiguration {
     }
 
     @Bean
-    public BeanNameAutoProxyCreator beanNameAutoProxyCreator() {
+    public BeanNameAutoProxyCreator transactionInterceptorProxy() {
         BeanNameAutoProxyCreator beanNameAutoProxyCreator = new BeanNameAutoProxyCreator();
         beanNameAutoProxyCreator.setInterceptorNames("txLcnInterceptor","transactionInterceptor");
         beanNameAutoProxyCreator.setBeanNames("*Impl");
         return beanNameAutoProxyCreator;
     }
+
 }
