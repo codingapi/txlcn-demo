@@ -4,7 +4,7 @@ import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.txlcn.common.util.Transactions;
 import com.codingapi.txlcn.tc.annotation.DTXPropagation;
 import com.codingapi.txlcn.tc.annotation.TxcTransaction;
-import com.codingapi.txlcn.tc.core.DTXLocalContext;
+import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,18 +34,11 @@ public class DemoServiceImpl implements DemoService {
     @TxcTransaction(propagation = DTXPropagation.SUPPORTS)
     @Transactional
     public String rpc(String value) {
-        /*
-         * 注意 5.0.0 请用 DTXLocal 类
-         * 注意 5.0.0 请自行获取应用名称
-         * 注意 5.0.0 其它类重新导入包名
-         */
-//        log.info("GroupId: {}", TracingContext.tracing().groupId());
         Demo demo = new Demo();
-        demo.setCreateTime(new Date());
+        demo.setGroupId(TracingContext.tracing().groupId());
         demo.setDemoField(value);
-        demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);  // 应用名称
-        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());   // DTXLocal
-        demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
+        demo.setAppName(Transactions.getApplicationId());
+        demo.setCreateTime(new Date());
         demoMapper.save(demo);
 //        moreOperateMapper.update(new Date());
 //        moreOperateMapper.delete();

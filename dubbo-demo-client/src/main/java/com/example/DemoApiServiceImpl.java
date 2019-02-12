@@ -7,7 +7,7 @@ import com.codingapi.example.common.dubbo.DDemoService;
 import com.codingapi.example.common.dubbo.EDemoService;
 import com.codingapi.txlcn.common.util.Transactions;
 import com.codingapi.txlcn.tc.annotation.LcnTransaction;
-import com.codingapi.txlcn.tc.core.DTXLocalContext;
+import com.codingapi.txlcn.tracing.TracingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,20 +45,13 @@ public class DemoApiServiceImpl implements DemoApiService {
     @Override
     @LcnTransaction
     public String execute(String name) {
-
-        /*
-         * 注意 5.0.0 请用 DTXLocal 类
-         * 注意 5.0.0 请自行获取应用名称
-         * 注意 5.0.0 其它类重新导入包名
-         */
         String dResp = dDemoService.rpc(name);
         String eResp = eDemoService.rpc(name);
         Demo demo = new Demo();
         demo.setCreateTime(new Date());
         demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);
         demo.setDemoField(name);
-        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
-        demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
+        demo.setGroupId(TracingContext.tracing().groupId());
         demoMapper.save(demo);
 
 //        int a = 1 / 0;

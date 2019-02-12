@@ -3,8 +3,8 @@ package com.codingapi.example.demo;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.txlcn.common.util.Transactions;
 import com.codingapi.txlcn.tc.annotation.DTXPropagation;
-import com.codingapi.txlcn.tc.annotation.TxcTransaction;
-import com.codingapi.txlcn.tc.core.DTXLocalContext;
+import com.codingapi.txlcn.tc.annotation.TccTransaction;
+import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,35 +33,27 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
-    @TxcTransaction(propagation = DTXPropagation.SUPPORTS)
+    @TccTransaction(propagation = DTXPropagation.SUPPORTS)
     @Transactional
     public String rpc(String value) {
-        /*
-         * 注意 5.0.0 请用 DTXLocal 类
-         * 注意 5.0.0 请自行获取应用名称
-         * 注意 5.0.0 其它类重新导入包名
-         */
-//        log.info("GroupId: {}", TracingContext.tracing().groupId());
-
         Demo demo = new Demo();
         demo.setDemoField(value);
         demo.setCreateTime(new Date());
-        demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);
-        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
-        demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
+        demo.setAppName(Transactions.getApplicationId());
+        demo.setGroupId(TracingContext.tracing().groupId());
         demoMapper.save(demo);
-//        ids.put(DTXLocalContext.getOrNew().getGroupId(), demo.getId());
+        ids.put(TracingContext.tracing().groupId(), demo.getId());
         return "ok-e";
     }
 
     public void confirmRpc(String value) {
-        log.info("tcc-confirm-" + DTXLocalContext.getOrNew().getGroupId());
-        ids.remove(DTXLocalContext.getOrNew().getGroupId());
+        log.info("tcc-confirm-" + TracingContext.tracing().groupId());
+        ids.remove(TracingContext.tracing().groupId());
     }
 
     public void cancelRpc(String value) {
-        log.info("tcc-cancel-" + DTXLocalContext.getOrNew().getGroupId());
-        Long kid = ids.get(DTXLocalContext.getOrNew().getGroupId());
+        log.info("tcc-cancel-" + TracingContext.tracing().groupId());
+        Long kid = ids.get(TracingContext.tracing().groupId());
         demoMapper.deleteByKId(kid);
     }
 }

@@ -17,6 +17,6 @@ public class MysqlPrimaryKeysProvider implements PrimaryKeysProvider {
 
     @Override
     public Map<String, List<String>> provide() {
-        return Maps.newHashMap("t_demo", Collections.singletonList("kid"));
+        return Maps.of("t_demo", Collections.singletonList("kid"));
     }
 }

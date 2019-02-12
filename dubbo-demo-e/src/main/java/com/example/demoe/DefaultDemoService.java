@@ -5,7 +5,6 @@ import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.dubbo.EDemoService;
 import com.codingapi.txlcn.common.util.Transactions;
 import com.codingapi.txlcn.tc.annotation.TccTransaction;
-import com.codingapi.txlcn.tc.core.DTXLocalContext;
 import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,30 +36,23 @@ public class DefaultDemoService implements EDemoService {
     @Override
     @TccTransaction(confirmMethod = "cm", cancelMethod = "cl", executeClass = DefaultDemoService.class)
     public String rpc(String name) {
-        /*
-         * 注意 5.0.0 请用 DTXLocal 类
-         * 注意 5.0.0 请自行获取应用名称
-         * 注意 5.0.0 其它类重新导入包名
-         */
-        log.info("GroupId: {}", TracingContext.tracing().groupId());
         Demo demo = new Demo();
         demo.setDemoField(name);
-        demo.setCreateTime(new Date());
-        demo.setGroupId(DTXLocalContext.getOrNew().getGroupId());
-        demo.setUnitId(DTXLocalContext.getOrNew().getUnitId());
         demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);
+        demo.setCreateTime(new Date());
+        demo.setGroupId(TracingContext.tracing().groupId());
         demoMapper.save(demo);
-        ids.put(DTXLocalContext.cur().getGroupId(), demo.getId());
+        ids.put(TracingContext.tracing().groupId(), demo.getId());
         return "e-ok";
     }
 
     public void cm(String name) {
-        log.info("tcc-confirm-" + DTXLocalContext.getOrNew().getGroupId());
-        ids.remove(DTXLocalContext.getOrNew().getGroupId());
+        log.info("tcc-confirm-" + TracingContext.tracing().groupId());
+        ids.remove(TracingContext.tracing().groupId());
     }
 
     public void cl(String name) {
-        log.info("tcc-cancel-" + DTXLocalContext.getOrNew().getGroupId());
-        demoMapper.deleteByKId(ids.get(DTXLocalContext.getOrNew().getGroupId()));
+        log.info("tcc-cancel-" + TracingContext.tracing().groupId());
+        demoMapper.deleteByKId(ids.get(TracingContext.tracing().groupId()));
     }
 }
