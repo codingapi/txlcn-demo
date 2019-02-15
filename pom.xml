@@ -4,22 +4,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.codingapi.txlcn</groupId>
+    <groupId>org.txlcn.demo</groupId>
     <artifactId>txlcn-demo</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>txlcn-demo</name>
 
     <modules>
-        <module>demo-common</module>
+        <module>txlcn-demo-common</module>
 
-        <module>dubbo-demo-client</module>
-        <module>dubbo-demo-d</module>
-        <module>dubbo-demo-e</module>
+        <module>txlcn-demo-dubbo-service-a</module>
+        <module>txlcn-demo-dubbo-service-b</module>
+        <module>txlcn-demo-dubbo-service-c</module>
 
-        <module>spring-demo-client</module>
-        <module>spring-demo-d</module>
-        <module>spring-demo-e</module>
+        <module>txlcn-demo-spring-service-a</module>
+        <module>txlcn-demo-spring-service-b</module>
+        <module>txlcn-demo-spring-service-c</module>
+
+        <module>txlcn-demo-tm</module>
 
     </modules>
 
@@ -74,13 +76,19 @@
 
             <dependency>
                 <groupId>com.codingapi.txlcn</groupId>
+                <artifactId>txlcn-tm</artifactId>
+                <version>${codingapi.txlcn.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.codingapi.txlcn</groupId>
                 <artifactId>txlcn-txmsg-netty</artifactId>
                 <version>${codingapi.txlcn.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.example</groupId>
-                <artifactId>demo-common</artifactId>
+                <groupId>org.txlcn.demo</groupId>
+                <artifactId>txlcn-demo-common</artifactId>
                 <version>1.0.0</version>
             </dependency>
 
