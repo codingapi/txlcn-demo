@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author ujued
  */
-@FeignClient(value = "spring-demo-e")
+@FeignClient(value = "txlcn-demo-spring-service-c", fallback = ServiceCFallback.class)
 public interface ServiceCClient {
 
     @GetMapping("/rpc")
