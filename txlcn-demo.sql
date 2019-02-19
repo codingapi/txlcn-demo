@@ -34,9 +34,9 @@ CREATE TABLE `t_demo` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `kid` varchar(45) DEFAULT NULL,
   `demo_field` varchar(255) DEFAULT NULL,
-  `group_id` varchar(32) DEFAULT NULL,
+  `group_id` varchar(64) DEFAULT NULL,
   `unit_id` varchar(32) DEFAULT NULL,
-  `app_name` varchar(32) DEFAULT NULL,
+  `app_name` varchar(128) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -49,57 +49,6 @@ CREATE TABLE `t_demo` (
 LOCK TABLES `t_demo` WRITE;
 /*!40000 ALTER TABLE `t_demo` DISABLE KEYS */;
 /*!40000 ALTER TABLE `t_demo` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `t_demo2`
---
-
-DROP TABLE IF EXISTS `t_demo2`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_demo2` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `kid` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `demo` bigint(20) DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `t_demo2`
---
-
-LOCK TABLES `t_demo2` WRITE;
-/*!40000 ALTER TABLE `t_demo2` DISABLE KEYS */;
-INSERT INTO `t_demo2` VALUES (2,'1',428,'2019-01-29 13:05:20'),(3,'2',429,'2019-01-29 13:05:20'),(4,'23',450,'2019-01-29 13:05:20'),(5,'234',451,'2019-01-29 13:05:20'),(6,'34',452,'2019-01-29 13:05:20'),(7,'345',453,'2019-01-29 13:05:20');
-/*!40000 ALTER TABLE `t_demo2` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `t_demo3`
---
-
-DROP TABLE IF EXISTS `t_demo3`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_demo3` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `kid` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `null_field` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `t_demo3`
---
-
-LOCK TABLES `t_demo3` WRITE;
-/*!40000 ALTER TABLE `t_demo3` DISABLE KEYS */;
-INSERT INTO `t_demo3` VALUES (7,'123','ew'),(8,'23','ew'),(9,'234','rdf'),(10,'34','fd'),(11,'345','fd');
-/*!40000 ALTER TABLE `t_demo3` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

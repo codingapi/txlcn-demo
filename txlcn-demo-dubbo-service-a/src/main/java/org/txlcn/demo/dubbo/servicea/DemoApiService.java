@@ -8,5 +8,5 @@ package org.txlcn.demo.dubbo.servicea;
  * @author codingapi
  */
 public interface DemoApiService {
-    String execute(String name);
+    String execute(String name, String exFlag);
 }

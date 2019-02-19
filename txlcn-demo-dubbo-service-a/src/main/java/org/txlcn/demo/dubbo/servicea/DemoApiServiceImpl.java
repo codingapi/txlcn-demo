@@ -7,11 +7,11 @@ import com.codingapi.txlcn.tracing.TracingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.txlcn.demo.common.db.domain.Demo;
-import org.txlcn.demo.common.db.mapper.DemoMapper;
-import org.txlcn.demo.common.dubbo.DDemoService;
-import org.txlcn.demo.common.dubbo.EDemoService;
+import org.txlcn.demo.common.dubbo.DemoServiceB;
+import org.txlcn.demo.common.dubbo.DemoServiceC;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Description:
@@ -24,37 +24,39 @@ import java.util.Date;
 public class DemoApiServiceImpl implements DemoApiService {
 
     @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.d}",
+            application = "${dubbo.application.b}",
             registry = "${dubbo.registry.address}",
             retries = -1,
             check = false,
             loadbalance = "txlcn_random")
-    private DDemoService dDemoService;
+    private DemoServiceB demoServiceB;
 
     @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.e}",
+            application = "${dubbo.application.c}",
             retries = -1,
             check = false,
             registry = "${dubbo.registry.address}",
             loadbalance = "txlcn_random")
-    private EDemoService eDemoService;
+    private DemoServiceC demoServiceC;
 
     @Autowired
     private DemoMapper demoMapper;
 
     @Override
     @LcnTransaction
-    public String execute(String name) {
-        String dResp = dDemoService.rpc(name);
-        String eResp = eDemoService.rpc(name);
+    public String execute(String name, String exFlag) {
+        String bResp = demoServiceB.rpc(name);
+        String cResp = demoServiceC.rpc(name);
         Demo demo = new Demo();
-        demo.setCreateTime(new Date());
-        demo.setAppName(Transactions.APPLICATION_ID_WHEN_RUNNING);
-        demo.setDemoField(name);
         demo.setGroupId(TracingContext.tracing().groupId());
+        demo.setDemoField(name);
+        demo.setAppName(Transactions.getApplicationId());
+        demo.setCreateTime(new Date());
         demoMapper.save(demo);
 
-//        int a = 1 / 0;
-        return dResp + " > " + eResp + " > " + "client-ok";
+        if (Objects.nonNull(exFlag)) {
+            throw new IllegalStateException("by exFlag");
+        }
+        return bResp + " > " + cResp + " > " + "ok-service-a";
     }
 }

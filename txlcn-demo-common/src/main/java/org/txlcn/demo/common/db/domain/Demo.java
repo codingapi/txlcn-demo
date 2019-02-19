@@ -21,7 +21,6 @@ public class Demo {
     private String kid = RandomUtils.randomKey();
     private String demoField;
     private String groupId;
-    private String unitId;
     private Date createTime;
     private String appName;
 

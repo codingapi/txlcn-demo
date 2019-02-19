@@ -21,8 +21,9 @@ public class DemoConsumerController {
 
 
     @RequestMapping("/txlcn")
-    public String sayHello(@RequestParam("value") String value) {
-        return demoApiService.execute(value);
+    public String sayHello(@RequestParam("value") String value,
+                           @RequestParam(value = "ex", required = false) String exFlag) {
+        return demoApiService.execute(value, exFlag);
     }
 
 }
