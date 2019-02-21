@@ -3,7 +3,9 @@ package org.txlcn.demo.servicec;
 import com.codingapi.txlcn.common.util.Transactions;
 import com.codingapi.txlcn.tc.annotation.DTXPropagation;
 import com.codingapi.txlcn.tc.annotation.TccTransaction;
+import com.codingapi.txlcn.tc.support.DTXUserControls;
 import com.codingapi.txlcn.tracing.TracingContext;
+import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.txlcn.demo.common.db.domain.Demo;
 
 import java.util.Date;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -25,7 +28,7 @@ public class DemoServiceImpl implements DemoService {
 
     private final DemoMapper demoMapper;
 
-    private ConcurrentHashMap<String, Long> ids = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Set<Long>> ids = new ConcurrentHashMap<>();
 
     @Autowired
     public DemoServiceImpl(DemoMapper demoMapper) {
@@ -42,18 +45,23 @@ public class DemoServiceImpl implements DemoService {
         demo.setAppName(Transactions.getApplicationId());
         demo.setGroupId(TracingContext.tracing().groupId());
         demoMapper.save(demo);
-        ids.put(TracingContext.tracing().groupId(), demo.getId());
+        ids.putIfAbsent(TracingContext.tracing().groupId(), Sets.newHashSet(demo.getId()));
+        ids.get(TracingContext.tracing().groupId()).add(demo.getId());
+        DTXUserControls.rollbackCurrentGroup();
         return "ok-service-c";
     }
 
     public void confirmRpc(String value) {
-        log.info("tcc-confirm-" + TracingContext.tracing().groupId());
-        ids.remove(TracingContext.tracing().groupId());
+        ids.get(TracingContext.tracing().groupId()).forEach(id -> {
+            log.info("tcc-confirm-{}-{}" + TracingContext.tracing().groupId(), id);
+            ids.get(TracingContext.tracing().groupId()).remove(id);
+        });
     }
 
     public void cancelRpc(String value) {
-        log.info("tcc-cancel-" + TracingContext.tracing().groupId());
-        Long kid = ids.get(TracingContext.tracing().groupId());
-        demoMapper.deleteByKId(kid);
+        ids.get(TracingContext.tracing().groupId()).forEach(id -> {
+            log.info("tcc-cancel-{}-{}", TracingContext.tracing().groupId(), id);
+            demoMapper.deleteByKId(id);
+        });
     }
 }
