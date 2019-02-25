@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-//@EnableDistributedTransaction
+@EnableDistributedTransaction
 public class SpringServiceAApplication {
 
     public static void main(String[] args) {

@@ -28,8 +28,8 @@ import java.util.Properties;
  *
  * @author ujued
  */
-@Configuration
-@EnableTransactionManagement
+//@Configuration
+//@EnableTransactionManagement
 public class AopTypeDTXConfiguration {
 
     /**

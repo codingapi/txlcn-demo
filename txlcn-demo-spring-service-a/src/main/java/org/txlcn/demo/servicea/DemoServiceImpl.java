@@ -1,6 +1,7 @@
 package org.txlcn.demo.servicea;
 
 import com.codingapi.txlcn.common.util.Transactions;
+import com.codingapi.txlcn.tc.jta.BranchTransaction;
 import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.txlcn.demo.common.db.domain.Demo;
 import org.txlcn.demo.common.spring.ServiceBClient;
 import org.txlcn.demo.common.spring.ServiceCClient;
 
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
 import java.util.Date;
 import java.util.Objects;
 
@@ -32,6 +35,9 @@ public class DemoServiceImpl implements DemoService {
     private final RestTemplate restTemplate;
 
     @Autowired
+    private BranchTransaction branchTransaction;
+
+    @Autowired
     public DemoServiceImpl(DemoMapper demoMapper, ServiceBClient serviceBClient, ServiceCClient serviceCClient, RestTemplate restTemplate) {
         this.demoMapper = demoMapper;
         this.serviceBClient = serviceBClient;
@@ -43,25 +49,35 @@ public class DemoServiceImpl implements DemoService {
     public String execute(String value, String exFlag) {
         // step1. call remote ServiceD
 //        String dResp = serviceBClient.rpc(value);
+        try {
+            branchTransaction.begin();
 
-        String dResp = restTemplate.getForObject("http://127.0.0.1:12002/rpc?value=" + value, String.class);
+            String dResp = restTemplate.getForObject("http://127.0.0.1:12002/rpc?value=" + value, String.class);
 
-        // step2. call remote ServiceE
-        String eResp = serviceCClient.rpc(value);
+            // step2. call remote ServiceE
+            String eResp = serviceCClient.rpc(value);
 
-        // step3. execute local transaction
-        Demo demo = new Demo();
-        demo.setGroupId(TracingContext.tracing().groupId());
-        demo.setDemoField(value);
-        demo.setCreateTime(new Date());
-        demo.setAppName(Transactions.getApplicationId());
-        demoMapper.save(demo);
+            // step3. execute local transaction
+            Demo demo = new Demo();
+            demo.setGroupId(TracingContext.tracing().groupId());
+            demo.setDemoField(value);
+            demo.setCreateTime(new Date());
+            demo.setAppName(Transactions.getApplicationId());
+            demoMapper.save(demo);
 
-        // 置异常标志，DTX 回滚
-        if (Objects.nonNull(exFlag)) {
-            throw new IllegalStateException("by exFlag");
+            // 置异常标志，DTX 回滚
+            if (Objects.nonNull(exFlag)) {
+                throw new IllegalStateException("by exFlag");
+            }
+            branchTransaction.commit();
+            return dResp + " > " + eResp + " > " + "ok-service-a";
+        } catch (Throwable e) {
+            try {
+                branchTransaction.rollback();
+            } catch (SystemException e1) {
+                e1.printStackTrace();
+            }
         }
-
-        return dResp + " > " + eResp + " > " + "ok-service-a";
+        return "err";
     }
 }
