@@ -11,7 +11,7 @@
     </parent>
     <groupId>org.txlcn.demo</groupId>
     <artifactId>txlcn-demo-common</artifactId>
-    <name>demo-common</name>
+    <name>txlcn-demo-common</name>
     <description>demo-common project for Spring Boot</description>
 
     <dependencies>
