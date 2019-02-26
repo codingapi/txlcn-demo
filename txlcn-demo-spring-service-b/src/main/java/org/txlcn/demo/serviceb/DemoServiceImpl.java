@@ -5,6 +5,7 @@ import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.txlcn.demo.common.db.domain.Demo;
 
@@ -28,7 +29,7 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.SUPPORTS)
     public String rpc(String value) {
         Demo demo = new Demo();
         demo.setGroupId(TracingContext.tracing().groupId());
