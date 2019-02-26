@@ -22,8 +22,6 @@
         <module>txlcn-demo-spring-service-c</module>
 
         <module>txlcn-demo-tm</module>
-        <module>txlcn-demo-jta</module>
-
     </modules>
 
     <properties>

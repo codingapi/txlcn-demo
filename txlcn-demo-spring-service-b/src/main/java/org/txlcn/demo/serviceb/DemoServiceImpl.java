@@ -1,8 +1,6 @@
 package org.txlcn.demo.serviceb;
 
 import com.codingapi.txlcn.common.util.Transactions;
-import com.codingapi.txlcn.tc.annotation.DTXPropagation;
-import com.codingapi.txlcn.tc.annotation.TxcTransaction;
 import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
