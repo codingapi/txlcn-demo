@@ -36,7 +36,6 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
-    @TccTransaction(propagation = DTXPropagation.SUPPORTS)
     @Transactional
     public String rpc(String value) {
         Demo demo = new Demo();
@@ -47,7 +46,6 @@ public class DemoServiceImpl implements DemoService {
         demoMapper.save(demo);
         ids.putIfAbsent(TracingContext.tracing().groupId(), Sets.newHashSet(demo.getId()));
         ids.get(TracingContext.tracing().groupId()).add(demo.getId());
-        DTXUserControls.rollbackCurrentGroup();
         return "ok-service-c";
     }
 
