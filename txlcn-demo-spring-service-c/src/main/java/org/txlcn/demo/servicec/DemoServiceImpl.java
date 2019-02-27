@@ -1,6 +1,7 @@
 package org.txlcn.demo.servicec;
 
 import com.codingapi.txlcn.common.util.Transactions;
+import com.codingapi.txlcn.tc.annotation.TransactionAttributes;
 import com.codingapi.txlcn.tracing.TracingContext;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,7 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     @Transactional
+    @TransactionAttributes(type = Transactions.TCC, commit = "demoServiceImpl#confirmRpc", rollback = "demoServiceImpl#cancelRpc")
     public String rpc(String value) {
         Demo demo = new Demo();
         demo.setDemoField(value);
@@ -46,14 +48,14 @@ public class DemoServiceImpl implements DemoService {
         return "ok-service-c";
     }
 
-    public void confirmRpc(String value) {
+    public void confirmRpc() {
         ids.get(TracingContext.tracing().groupId()).forEach(id -> {
             log.info("tcc-confirm-{}-{}" + TracingContext.tracing().groupId(), id);
             ids.get(TracingContext.tracing().groupId()).remove(id);
         });
     }
 
-    public void cancelRpc(String value) {
+    public void cancelRpc() {
         ids.get(TracingContext.tracing().groupId()).forEach(id -> {
             log.info("tcc-cancel-{}-{}", TracingContext.tracing().groupId(), id);
             demoMapper.deleteByKId(id);
