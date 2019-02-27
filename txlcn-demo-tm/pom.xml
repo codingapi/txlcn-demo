@@ -20,11 +20,5 @@
             <artifactId>txlcn-tm</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.codingapi.security</groupId>
-            <artifactId>security-component-generic-cors</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
     </dependencies>
 </project>
