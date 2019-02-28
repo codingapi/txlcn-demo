@@ -1,13 +1,15 @@
 package org.txlcn.demo.serviceb;
 
 import com.codingapi.txlcn.tc.core.context.TCGlobalContext;
-import com.codingapi.txlcn.tc.jta.LcnTransactionInterceptor;
+import com.codingapi.txlcn.tc.jta.spring.LcnTransactionInterceptor;
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
+import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
@@ -16,7 +18,7 @@ import java.util.Properties;
  *
  * @author ujued
  */
-//@Configuration
+@Configuration
 public class AopTypeDTXConfiguration {
 
     private static final String CUSTOM_TRANSACTION_INTERCEPTOR_NAME = "dtxTransactionInterceptor";
@@ -27,7 +29,7 @@ public class AopTypeDTXConfiguration {
      * @param transactionManager
      * @return
      */
-    @Bean(CUSTOM_TRANSACTION_INTERCEPTOR_NAME)
+//    @Bean(CUSTOM_TRANSACTION_INTERCEPTOR_NAME)
     public TransactionInterceptor transactionInterceptor(PlatformTransactionManager transactionManager, TCGlobalContext globalContext) {
         Properties properties = new Properties();
         properties.setProperty("*", "PROPAGATION_SUPPORTS,-Throwable,DTX_TYPE_TXC");
@@ -37,7 +39,12 @@ public class AopTypeDTXConfiguration {
         return transactionInterceptor;
     }
 
-    @Bean
+    @Bean("local-tm")
+    public DataSourceTransactionManager dataSourceTransactionManager(DataSource dataSource){
+        return new DataSourceTransactionManager(dataSource);
+    }
+
+//    @Bean
     public BeanNameAutoProxyCreator beanNameAutoProxyCreator() {
         BeanNameAutoProxyCreator beanNameAutoProxyCreator = new BeanNameAutoProxyCreator();
         beanNameAutoProxyCreator.setInterceptorNames(CUSTOM_TRANSACTION_INTERCEPTOR_NAME);

@@ -1,14 +1,10 @@
 package org.txlcn.demo.servicea;
 
 import com.codingapi.txlcn.common.util.Transactions;
-import com.codingapi.txlcn.tc.annotation.LcnTransaction;
-import com.codingapi.txlcn.tc.annotation.TransactionAttributes;
-import com.codingapi.txlcn.tracing.TracingContext;
+import com.codingapi.txlcn.tc.annotation.TransactionAttribute;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.txlcn.demo.common.db.domain.Demo;
@@ -46,7 +42,7 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     @Transactional
-    @TransactionAttributes(type = Transactions.LCN)
+    @TransactionAttribute(type = Transactions.LCN)
     public String execute(String value, String exFlag) {
         // step1. call remote ServiceD
 //        String dResp = serviceBClient.rpc(value);

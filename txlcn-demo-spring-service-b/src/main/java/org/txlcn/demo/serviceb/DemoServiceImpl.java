@@ -1,11 +1,12 @@
 package org.txlcn.demo.serviceb;
 
 import com.codingapi.txlcn.common.util.Transactions;
-import com.codingapi.txlcn.tc.annotation.TransactionAttributes;
+import com.codingapi.txlcn.tc.annotation.TransactionAttribute;
 import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.txlcn.demo.common.db.domain.Demo;
 
@@ -29,8 +30,8 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
-    @Transactional
-    @TransactionAttributes(type = Transactions.LCN)
+    @Transactional(transactionManager = "local-tm")
+    @TransactionAttribute(type = Transactions.LCN)
     public String rpc(String value) {
         Demo demo = new Demo();
         demo.setGroupId(TracingContext.tracing().groupId());

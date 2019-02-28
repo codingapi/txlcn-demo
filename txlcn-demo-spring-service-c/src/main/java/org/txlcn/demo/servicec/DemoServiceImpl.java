@@ -1,13 +1,14 @@
 package org.txlcn.demo.servicec;
 
 import com.codingapi.txlcn.common.util.Transactions;
-import com.codingapi.txlcn.tc.annotation.TransactionAttributes;
+import com.codingapi.txlcn.tc.annotation.TransactionAttribute;
 import com.codingapi.txlcn.tracing.TracingContext;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.txlcn.demo.common.db.domain.Demo;
 
 import java.util.Date;
@@ -34,8 +35,8 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
-    @Transactional
-    @TransactionAttributes(type = Transactions.TCC, commit = "demoServiceImpl#confirmRpc", rollback = "demoServiceImpl#cancelRpc")
+    @Transactional(timeout = 1200)
+    @TransactionAttribute(type = Transactions.TCC, commit = "demoServiceImpl#confirmRpc", rollback = "demoServiceImpl#cancelRpc")
     public String rpc(String value) {
         Demo demo = new Demo();
         demo.setDemoField(value);
@@ -50,7 +51,7 @@ public class DemoServiceImpl implements DemoService {
 
     public void confirmRpc() {
         ids.get(TracingContext.tracing().groupId()).forEach(id -> {
-            log.info("tcc-confirm-{}-{}" + TracingContext.tracing().groupId(), id);
+            log.info("tcc-confirm-{}-{}", TracingContext.tracing().groupId(), id);
             ids.get(TracingContext.tracing().groupId()).remove(id);
         });
     }

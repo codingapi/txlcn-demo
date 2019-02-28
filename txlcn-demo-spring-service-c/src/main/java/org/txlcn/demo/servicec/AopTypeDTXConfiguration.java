@@ -1,10 +1,9 @@
 package org.txlcn.demo.servicec;
 
 import com.codingapi.txlcn.tc.core.context.TCGlobalContext;
-import com.codingapi.txlcn.tc.jta.LcnTransactionInterceptor;
+import com.codingapi.txlcn.tc.jta.spring.LcnTransactionInterceptor;
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
