@@ -5,11 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>txlcn-demo</artifactId>
-        <groupId>com.codingapi.txlcn</groupId>
+        <groupId>org.txlcn.demo</groupId>
         <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>org.txlcn.demo</groupId>
     <artifactId>txlcn-demo-common</artifactId>
     <name>txlcn-demo-common</name>
     <description>demo-common project for Spring Boot</description>

@@ -1,12 +1,10 @@
 package org.txlcn.demo.servicea;
 
 import com.codingapi.txlcn.common.util.Transactions;
-import com.codingapi.txlcn.tc.annotation.TransactionAttribute;
+import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 import org.txlcn.demo.common.db.domain.Demo;
 import org.txlcn.demo.common.spring.ServiceBClient;
 import org.txlcn.demo.common.spring.ServiceCClient;
@@ -30,36 +28,32 @@ public class DemoServiceImpl implements DemoService {
 
     private final ServiceCClient serviceCClient;
 
-    private final RestTemplate restTemplate;
-
     @Autowired
-    public DemoServiceImpl(DemoMapper demoMapper, ServiceBClient serviceBClient, ServiceCClient serviceCClient, RestTemplate restTemplate) {
+    public DemoServiceImpl(DemoMapper demoMapper, ServiceBClient serviceBClient, ServiceCClient serviceCClient) {
         this.demoMapper = demoMapper;
         this.serviceBClient = serviceBClient;
         this.serviceCClient = serviceCClient;
-        this.restTemplate = restTemplate;
     }
 
     @Override
-    @Transactional
-    @TransactionAttribute(type = Transactions.LCN)
     public String execute(String value, String exFlag) {
         // step1. call remote ServiceD
-//        String dResp = serviceBClient.rpc(value);
-        String dResp = restTemplate.getForObject("http://127.0.0.1:12002/rpc?value=" + value, String.class);
+        String dResp = serviceBClient.rpc(value);
 
         // step2. call remote ServiceE
         String eResp = serviceCClient.rpc(value);
 
         // step3. execute local transaction
         Demo demo = new Demo();
-//        demo.setGroupId(TracingContext.tracing().groupId());
+        if (TracingContext.tracing().hasGroup()) {
+            demo.setGroupId(TracingContext.tracing().groupId());
+        }
         demo.setDemoField(value);
         demo.setCreateTime(new Date());
         demo.setAppName(Transactions.getApplicationId());
         demoMapper.save(demo);
 
-        // 置异常标志，DTX 回滚
+        // step4. rollback all branches if set ex flag
         if (Objects.nonNull(exFlag)) {
             throw new IllegalStateException("by exFlag");
         }

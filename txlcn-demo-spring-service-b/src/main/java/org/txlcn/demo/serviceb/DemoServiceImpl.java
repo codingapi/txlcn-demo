@@ -6,7 +6,6 @@ import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.txlcn.demo.common.db.domain.Demo;
 
@@ -30,12 +29,13 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
-    @Transactional(transactionManager = "local-tm")
-    @TransactionAttribute(type = Transactions.LCN)
+    @Transactional
+    @TransactionAttribute(type = Transactions.TXC)
     public String rpc(String value) {
+        // this branch transaction
         Demo demo = new Demo();
-        demo.setGroupId(TracingContext.tracing().groupId());
         demo.setDemoField(value);
+        demo.setGroupId(TracingContext.tracing().groupId());
         demo.setAppName(Transactions.getApplicationId());
         demo.setCreateTime(new Date());
         demoMapper.save(demo);
