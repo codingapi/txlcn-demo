@@ -1,6 +1,6 @@
 package org.txlcn.demo.servicea;
 
-import com.codingapi.txlcn.tc.aspect.LcnTransactionInterceptor;
+import com.codingapi.txlcn.tc.aspect.BranchTransactionInterceptor;
 import com.codingapi.txlcn.tc.core.context.BranchContext;
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +34,7 @@ public class TransactionConfiguration {
     public TransactionInterceptor transactionInterceptor(JtaTransactionManager transactionManager, BranchContext branchContext) {
         Properties properties = new Properties();
         properties.setProperty("*", "PROPAGATION_REQUIRED,-Throwable,DTX_TYPE_LCN");
-        LcnTransactionInterceptor transactionInterceptor = new LcnTransactionInterceptor(branchContext);
+        BranchTransactionInterceptor transactionInterceptor = new BranchTransactionInterceptor(branchContext);
         transactionInterceptor.setTransactionAttributes(properties);
         transactionInterceptor.setTransactionManager(transactionManager);
         return transactionInterceptor;

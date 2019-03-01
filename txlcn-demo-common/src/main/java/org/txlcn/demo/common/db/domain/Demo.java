@@ -13,15 +13,15 @@ import java.util.Date;
  *
  * @author ujued
  */
-@AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Demo {
     private Long id;
     private String kid = RandomUtils.randomKey();
     private String demoField;
-    private String groupId;
-    private Date createTime;
-    private String appName;
+    private Date createTime = new Date();
 
+    public Demo(String value) {
+        this.demoField = value;
+    }
 }

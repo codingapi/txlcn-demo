@@ -1,15 +1,11 @@
 package org.txlcn.demo.serviceb;
 
-import com.codingapi.txlcn.common.util.Transactions;
-import com.codingapi.txlcn.tc.annotation.TransactionAttribute;
 import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.txlcn.demo.common.db.domain.Demo;
-
-import java.util.Date;
 
 /**
  * Description:
@@ -30,15 +26,14 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     @Transactional
-    @TransactionAttribute(type = Transactions.TXC)
     public String rpc(String value) {
+        if (TracingContext.tracing().hasGroup()) {
+            TracingContext.tracing().groupId();
+        }
+
         // this branch transaction
-        Demo demo = new Demo();
-        demo.setDemoField(value);
-        demo.setGroupId(TracingContext.tracing().groupId());
-        demo.setAppName(Transactions.getApplicationId());
-        demo.setCreateTime(new Date());
-        demoMapper.save(demo);
+        demoMapper.save(new Demo(value));
+
         return "ok-service-b";
     }
 }

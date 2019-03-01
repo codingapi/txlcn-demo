@@ -1,6 +1,5 @@
 package org.txlcn.demo.servicea;
 
-import com.codingapi.txlcn.common.util.Transactions;
 import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.txlcn.demo.common.db.domain.Demo;
 import org.txlcn.demo.common.spring.ServiceBClient;
 import org.txlcn.demo.common.spring.ServiceCClient;
 
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -37,6 +35,10 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     public String execute(String value, String exFlag) {
+        if (TracingContext.tracing().hasGroup()) {
+            log.info("Transaction GroupId: {}", TracingContext.tracing().groupId());
+        }
+
         // step1. call remote ServiceD
         String dResp = serviceBClient.rpc(value);
 
@@ -44,14 +46,7 @@ public class DemoServiceImpl implements DemoService {
         String eResp = serviceCClient.rpc(value);
 
         // step3. execute local transaction
-        Demo demo = new Demo();
-        if (TracingContext.tracing().hasGroup()) {
-            demo.setGroupId(TracingContext.tracing().groupId());
-        }
-        demo.setDemoField(value);
-        demo.setCreateTime(new Date());
-        demo.setAppName(Transactions.getApplicationId());
-        demoMapper.save(demo);
+        demoMapper.save(new Demo(value));
 
         // step4. rollback all branches if set ex flag
         if (Objects.nonNull(exFlag)) {
