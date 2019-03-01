@@ -1,5 +1,6 @@
 package org.txlcn.demo.servicec;
 
+import com.codingapi.txlcn.tc.annotation.TransactionAttribute;
 import com.codingapi.txlcn.tracing.TracingContext;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     @Transactional
+    @TransactionAttribute(type = "tcc", commit = "this#commitRpc", rollback = "this#rollbackRpc")
     public String rpc(String value) {
 
         // step1. this branch transaction

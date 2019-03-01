@@ -5,11 +5,9 @@ import com.codingapi.txlcn.tc.core.context.BranchContext;
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springframework.transaction.jta.JtaTransactionManager;
 
-import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
@@ -33,22 +31,11 @@ public class TransactionConfiguration {
     @Bean(CUSTOM_TRANSACTION_INTERCEPTOR_NAME)
     public TransactionInterceptor transactionInterceptor(JtaTransactionManager transactionManager, BranchContext branchContext) {
         Properties properties = new Properties();
-        properties.setProperty("*", "PROPAGATION_REQUIRED,-Throwable,DTX_TYPE_LCN");
+        properties.setProperty("*", "PROPAGATION_REQUIRED,-Throwable");
         BranchTransactionInterceptor transactionInterceptor = new BranchTransactionInterceptor(branchContext);
         transactionInterceptor.setTransactionAttributes(properties);
         transactionInterceptor.setTransactionManager(transactionManager);
         return transactionInterceptor;
-    }
-
-    /**
-     * 本地事务管理器
-     *
-     * @param dataSource dataSource
-     * @return DataSourceTransactionManager
-     */
-    @Bean("local-tm")
-    public DataSourceTransactionManager dataSourceTransactionManager(DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
     }
 
     /**

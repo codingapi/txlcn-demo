@@ -6,6 +6,7 @@ import com.codingapi.txlcn.tc.annotation.TxTransaction;
 import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.txlcn.demo.common.db.domain.Demo;
 import org.txlcn.demo.common.dubbo.DemoServiceB;
 
@@ -31,14 +32,9 @@ public class DefaultDemoServiceB implements DemoServiceB {
     private DemoMapper demoMapper;
 
     @Override
-    @TxTransaction(type = "txc")
+    @Transactional
     public String rpc(String name) {
-        Demo demo = new Demo();
-        demo.setDemoField(name);
-        demo.setGroupId(TracingContext.tracing().groupId());
-        demo.setCreateTime(new Date());
-        demo.setAppName(Transactions.getApplicationId());
-        demoMapper.save(demo);
+        demoMapper.save(new Demo(name));
         return "ok-service-b";
     }
 

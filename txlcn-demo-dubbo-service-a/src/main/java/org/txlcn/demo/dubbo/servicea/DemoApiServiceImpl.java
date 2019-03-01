@@ -1,16 +1,13 @@
 package org.txlcn.demo.dubbo.servicea;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.codingapi.txlcn.common.util.Transactions;
-import com.codingapi.txlcn.tc.annotation.LcnTransaction;
-import com.codingapi.txlcn.tracing.TracingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.txlcn.demo.common.db.domain.Demo;
 import org.txlcn.demo.common.dubbo.DemoServiceB;
 import org.txlcn.demo.common.dubbo.DemoServiceC;
 
-import java.util.Date;
+import javax.transaction.Transactional;
 import java.util.Objects;
 
 /**
@@ -43,20 +40,19 @@ public class DemoApiServiceImpl implements DemoApiService {
     private DemoMapper demoMapper;
 
     @Override
-    @LcnTransaction
+    @Transactional
     public String execute(String name, String exFlag) {
+
         String bResp = demoServiceB.rpc(name);
+
         String cResp = demoServiceC.rpc(name);
-        Demo demo = new Demo();
-        demo.setGroupId(TracingContext.tracing().groupId());
-        demo.setDemoField(name);
-        demo.setAppName(Transactions.getApplicationId());
-        demo.setCreateTime(new Date());
-        demoMapper.save(demo);
+
+        demoMapper.save(new Demo(name));
 
         if (Objects.nonNull(exFlag)) {
             throw new IllegalStateException("by exFlag");
         }
+
         return bResp + " > " + cResp + " > " + "ok-service-a";
     }
 }
