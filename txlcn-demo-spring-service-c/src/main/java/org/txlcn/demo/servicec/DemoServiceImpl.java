@@ -1,5 +1,6 @@
 package org.txlcn.demo.servicec;
 
+import com.codingapi.txlcn.common.util.Transactions;
 import com.codingapi.txlcn.tc.annotation.TransactionAttribute;
 import com.codingapi.txlcn.tracing.TracingContext;
 import com.google.common.collect.Sets;
@@ -7,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.txlcn.demo.common.db.domain.Demo;
 
 import java.util.Set;
@@ -38,7 +38,7 @@ public class DemoServiceImpl implements DemoService {
     public String rpc(String value) {
 
         // step1. this branch transaction
-        Demo demo = new Demo(value);
+        Demo demo = new Demo(value, Transactions.getApplicationId());
         demoMapper.save(demo);
 
         // step2. prepare tcc callback info
@@ -46,9 +46,9 @@ public class DemoServiceImpl implements DemoService {
         ids.get(TracingContext.tracing().groupId()).add(demo.getId());
 
         // step3. user set rollback only if demo's id is a odd number
-        if (demo.getId() % 2 != 0) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-        }
+//        if (demo.getId() % 2 != 0) {
+//            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+//        }
         return "ok-service-c";
     }
 

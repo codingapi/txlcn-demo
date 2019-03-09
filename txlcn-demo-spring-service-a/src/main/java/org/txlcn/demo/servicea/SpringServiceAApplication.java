@@ -13,7 +13,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableDistributedTransaction
+//@EnableDistributedTransaction
 public class SpringServiceAApplication {
 
     public static void main(String[] args) {

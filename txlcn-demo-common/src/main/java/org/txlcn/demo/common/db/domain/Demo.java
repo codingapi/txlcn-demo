@@ -19,9 +19,11 @@ public class Demo {
     private Long id;
     private String kid = RandomUtils.randomKey();
     private String demoField;
+    private String appName;
     private Date createTime = new Date();
 
-    public Demo(String value) {
+    public Demo(String value, String appName) {
         this.demoField = value;
+        this.appName = appName;
     }
 }

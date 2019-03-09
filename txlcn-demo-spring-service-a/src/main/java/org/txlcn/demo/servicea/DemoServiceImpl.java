@@ -1,10 +1,10 @@
 package org.txlcn.demo.servicea;
 
-import com.codingapi.txlcn.tracing.TracingContext;
+import com.codingapi.txlcn.common.util.Transactions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.txlcn.demo.common.db.domain.Demo;
+import org.springframework.transaction.annotation.Transactional;
 import org.txlcn.demo.common.spring.ServiceBClient;
 import org.txlcn.demo.common.spring.ServiceCClient;
 
@@ -20,38 +20,45 @@ import java.util.Objects;
 @Slf4j
 public class DemoServiceImpl implements DemoService {
 
-    private final DemoMapper demoMapper;
+    private final DemoRepo demoRepo;
 
     private final ServiceBClient serviceBClient;
 
     private final ServiceCClient serviceCClient;
 
     @Autowired
-    public DemoServiceImpl(DemoMapper demoMapper, ServiceBClient serviceBClient, ServiceCClient serviceCClient) {
-        this.demoMapper = demoMapper;
+    public DemoServiceImpl(DemoRepo demoRepo, ServiceBClient serviceBClient, ServiceCClient serviceCClient) {
+        this.demoRepo = demoRepo;
         this.serviceBClient = serviceBClient;
         this.serviceCClient = serviceCClient;
     }
 
+//    private DemoMapper demoMapper;
+
     @Override
+    @Transactional
     public String execute(String value, String exFlag) {
-        if (TracingContext.tracing().hasGroup()) {
-            log.info("Transaction GroupId: {}", TracingContext.tracing().groupId());
-        }
 
-        // step1. call remote ServiceD
-        String dResp = serviceBClient.rpc(value);
+        serviceBClient.rpc(value);
 
-        // step2. call remote ServiceE
-        String eResp = serviceCClient.rpc(value);
+        serviceCClient.rpc(value);
 
+        JpaDemo demo = new JpaDemo();
+        demo.setDemoField(value);
+        demo.setAppName(Transactions.getApplicationId());
         // step3. execute local transaction
-        demoMapper.save(new Demo(value));
 
+        demoRepo.save(demo);
+
+
+//
+////        demoMapper.save(new Demo(value));
+//
         // step4. rollback all branches if set ex flag
         if (Objects.nonNull(exFlag)) {
             throw new IllegalStateException("by exFlag");
         }
-        return dResp + " > " + eResp + " > " + "ok-service-a";
+
+        return "ok-service-a";
     }
 }

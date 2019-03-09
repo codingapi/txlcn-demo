@@ -1,5 +1,6 @@
 package org.txlcn.demo.common.db.mapper;
 
+import org.apache.ibatis.annotations.Update;
 import org.txlcn.demo.common.db.domain.Demo;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -14,9 +15,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface BaseDemoMapper {
 
-    @Insert("insert into t_demo(kid, demo_field, create_time) values(#{kid}, #{demoField}, #{createTime})")
+    @Insert("insert into t_demo(kid, demo_field, app_name, create_time) values(#{kid}, #{demoField}, #{appName}, #{createTime})")
     void save(Demo demo);
 
     @Delete("delete from t_demo where id=#{id}")
     void deleteByKId(Long id);
+
+    @Update("update t_demo set `app_name`='1serw'")
+    void update();
 }

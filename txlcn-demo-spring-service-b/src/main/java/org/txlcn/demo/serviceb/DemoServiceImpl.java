@@ -1,5 +1,7 @@
 package org.txlcn.demo.serviceb;
 
+import com.codingapi.txlcn.common.util.Transactions;
+import com.codingapi.txlcn.tc.annotation.TransactionAttribute;
 import com.codingapi.txlcn.tracing.TracingContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +28,15 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     @Transactional
+    @TransactionAttribute(type = "txc")
     public String rpc(String value) {
         if (TracingContext.tracing().hasGroup()) {
             TracingContext.tracing().groupId();
         }
 
         // this branch transaction
-        demoMapper.save(new Demo(value));
+        demoMapper.save(new Demo(value, Transactions.getApplicationId()));
+//        demoMapper.update();
 
         return "ok-service-b";
     }
